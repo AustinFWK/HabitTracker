@@ -1,8 +1,13 @@
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
+from database import engine
+import models
 
 app = FastAPI()
+
+models.Base.metadata.create_all(bind=engine)
+
 
 class Item(BaseModel):
     name: str
