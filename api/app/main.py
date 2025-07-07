@@ -1,8 +1,8 @@
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
-from database import engine
-import models
+from app.db.database import engine
+from app.db import models
 
 app = FastAPI()
 

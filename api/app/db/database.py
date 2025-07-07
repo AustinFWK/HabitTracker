@@ -1,6 +1,6 @@
-from sqlachemy import create_engine
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker
 
 database_url = "sqlite:///db.sqlite3"
 
