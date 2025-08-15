@@ -1,28 +1,28 @@
 from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from pydantic import BaseModel
 from app.db.database import engine
 from app.db import models
+from app.db.models import User
+from app.db.database import get_session
+from app.db.schema import UserCreate, UserRead
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
 
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None] = None
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
 
+@app.post("/users/", response_model= UserRead)
+def create_user(user: UserCreate, session = Depends(get_session)) -> User:
+    db_user = User(**user.model_dump())
+    session.add(db_user)
+    session.commit()
+    session.refresh(db_user)
+    return db_user
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
-
-@app.put("/items/{item_id}")
-def update_item(item_id: int, item: Item):
-    return {"item_id": item_id, "item": item}
+    
