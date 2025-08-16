@@ -1,7 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base
+import os
 
-database_url = "sqlite:///db.sqlite3"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # this is api/app/db
+DB_FILE = os.path.join(BASE_DIR, "db.sqlite3")
+
+database_url = f"sqlite:///{DB_FILE}"
 
 connect_args={"check_same_thread": False}
 

@@ -8,9 +8,9 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
     email = Column(String(255), unique=True, index=True, nullable=False)
-    birthdate = Column(Integer, nullable=True)
+    #birthdate = Column(Integer, nullable=True)
 
-    daily_habits = relationship("Daily Habits", back_populates="owner")
+    daily_habits = relationship("DailyHabits", back_populates="owner")
 
 class DailyHabits(Base):
     __tablename__ = "daily_habits"
