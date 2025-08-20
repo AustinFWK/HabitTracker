@@ -1,5 +1,5 @@
 from typing import Union
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from pydantic import BaseModel
 from app.db.database import engine
 from app.db import models
@@ -25,4 +25,9 @@ def create_user(user: UserCreate, session = Depends(get_session)) -> User:
     session.refresh(db_user)
     return db_user
 
+@app.delete("/users/{user_id}")
+def delete_user(user_id: int, session = Depends(get_session)) -> User:
+    User = session.get(User, user_id)
+    if not User:
+        raise HTTPException(status_code=404, detail="User does not exist")
     
