@@ -16,3 +16,7 @@ class UserRead(BaseModel):
     email: EmailStr
     #birthdate: date
     model_config = ConfigDict(from_attributes=True)
+
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[EmailStr] = None

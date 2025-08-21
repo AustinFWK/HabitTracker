@@ -5,17 +5,11 @@ from app.db.database import engine
 from app.db import models
 from app.db.models import User
 from app.db.database import get_session
-from app.db.schema import UserCreate, UserRead
+from app.db.schema import UserCreate, UserRead, UserUpdate
 
 app = FastAPI()
 
 models.Base.metadata.create_all(bind=engine)
-
-
-
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
 
 
 #create user endpoint
@@ -31,18 +25,31 @@ def create_user(user: UserCreate, session = Depends(get_session)) -> User:
 #delete user endpoint
 @app.delete("/users/{user_id}", response_model=None)
 def delete_user(user_id: int, session = Depends(get_session)) -> User:
-    User = session.get(User, user_id)
-    if not User:
+    db_user = session.get(User, user_id)
+    if not db_user:
         raise HTTPException(status_code=404, detail="User does not exist")
-    session.delete(User)
+    session.delete(db_user)
     session.commit()
     return {"detail": "User succesfully deleted"}
 
 #read user endpoint
 @app.get("/users/{user_id}", response_model=UserRead)
-def update_user(user_id: int, session = Depends(get_session)) -> User:
-    User = session.get(User, user_id)
-    if not User:
+def get_user(user_id: int, session = Depends(get_session)) -> User:
+    db_user = session.get(User, user_id)
+    if not db_user:
         raise HTTPException(status_code=404, detail="User does not exist")
-    return User
+    return db_user
 
+#update user endpoint
+@app.put("/users/{user_id}", response_model=UserRead)
+def update_user(user_id: int, user: UserUpdate, session = Depends(get_session)) -> User:
+    db_user = session.query(User).filter(User.id == user_id).first()
+    if not db_user:
+        raise HTTPException(status_code=404, detail="User does not exist")
+    
+    update_data = user.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_user, key, value)
+    session.commit()
+    session.refresh(db_user)
+    return db_user
