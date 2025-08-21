@@ -29,7 +29,7 @@ def create_user(user: UserCreate, session = Depends(get_session)) -> User:
 
 
 #delete user endpoint
-@app.delete("/users/{user_id}")
+@app.delete("/users/{user_id}", response_model=None)
 def delete_user(user_id: int, session = Depends(get_session)) -> User:
     User = session.get(User, user_id)
     if not User:
@@ -39,7 +39,7 @@ def delete_user(user_id: int, session = Depends(get_session)) -> User:
     return {"detail": "User succesfully deleted"}
 
 #read user endpoint
-@app.put("/users/{user_id}", response_model=UserRead)
+@app.get("/users/{user_id}", response_model=UserRead)
 def update_user(user_id: int, session = Depends(get_session)) -> User:
     User = session.get(User, user_id)
     if not User:
