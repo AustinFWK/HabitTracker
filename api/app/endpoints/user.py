@@ -5,10 +5,10 @@ from app.db.database import get_session
 
 
 router = APIRouter(
-    prefix="/users",
+    prefix="/user",
 )
 
-@router.post("/create_user", response_model= UserRead)
+@router.post("/", response_model= UserRead)
 def create_user(user: UserCreate, session = Depends(get_session)) -> User:
     db_user = User(**user.model_dump())
     session.add(db_user)
@@ -18,7 +18,7 @@ def create_user(user: UserCreate, session = Depends(get_session)) -> User:
 
 
 #delete user endpoint
-@router.delete("/delete_user/{user_id}", response_model=None)
+@router.delete("/{user_id}", response_model=None)
 def delete_user(user_id: int, session = Depends(get_session)) -> User:
     db_user = session.get(User, user_id)
     if not db_user:
@@ -28,7 +28,7 @@ def delete_user(user_id: int, session = Depends(get_session)) -> User:
     return {"detail": "User succesfully deleted"}
 
 #read user endpoint
-@router.get("/get_user/{user_id}", response_model=UserRead)
+@router.get("/{user_id}", response_model=UserRead)
 def get_user(user_id: int, session = Depends(get_session)) -> User:
     db_user = session.get(User, user_id)
     if not db_user:
@@ -36,7 +36,7 @@ def get_user(user_id: int, session = Depends(get_session)) -> User:
     return db_user
 
 #update user endpoint
-@router.put("/update_user/{user_id}", response_model=UserRead)
+@router.put("/{user_id}", response_model=UserRead)
 def update_user(user_id: int, user: UserUpdate, session = Depends(get_session)) -> User:
     db_user = session.query(User).filter(User.id == user_id).first()
     if not db_user:
