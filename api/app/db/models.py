@@ -16,8 +16,10 @@ class DailyEntry(Base):
     __tablename__ = "daily_entries"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
+    #user_id = Column(Integer, ForeignKey("users.id"))
     entry = Column(String, index=True)
-    habit_date = Column(String, index=True)
+    #habit_date = Column(String, index=True)
+
+    #commented out date and userid until i program them to be automatically configured
 
     owner = relationship("User", back_populates="daily_entries")
