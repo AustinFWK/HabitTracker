@@ -6,6 +6,7 @@ from app.db.database import get_session
 
 router = APIRouter(
     prefix="/user",
+    tags=["user"]
 )
 
 @router.post("/", response_model= UserRead)
