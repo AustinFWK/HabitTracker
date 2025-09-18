@@ -24,7 +24,7 @@ class UserUpdate(BaseModel):
 class EntryCreate(BaseModel):
     entry: str
     #commenting out user id until it's automatically assigned based on the current active user
-    #user_id: int
+    user_id: int
 
     class Config:
         orm_mode = True
