@@ -3,7 +3,7 @@ from typing import Optional
 
 class EntryCreate(BaseModel):
     entry: str
-    #commenting out user id until it's automatically assigned based on the current active user
+    #user id is manually assigned as of now, need to program a way to automatically assign it based on the logged in user
     user_id: int
 
     class Config:

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from app.db.schema import UserRead, UserUpdate, UserCreate
-from app.db.models import User
+from api.app.schemas.user import UserRead, UserUpdate, UserCreate
+from api.app.models.models import User
 from app.db.database import get_session
 
 
