@@ -7,7 +7,7 @@ class DailyEntry(Base):
     __tablename__ = "daily_entries"
 
     id = Column(Integer, primary_key=True, index=True)
-    clerk_user_id = Column(String, ForeignKey("users.user_clerk_id")) 
+    clerk_user_id = Column(String, ForeignKey("users.clerk_user_id")) 
     entry = Column(String, index=True)
     habit_date = Column(date, index=True)
 
