@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
-from api.app.schemas.user import EntryRead, EntryCreate, EntryUpdate
-from api.app.models.user import DailyEntry
+from app.schemas.entry import EntryRead, EntryCreate, EntryUpdate
+from app.models.entry import DailyEntry
 from app.db.database import get_session
 
 router = APIRouter(
