@@ -36,3 +36,7 @@ def verify_token(token: str) -> Dict:
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Authentication error: {str(e)}"
         )
+    
+def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> Dict:
+    token = credentials.credentials
+    return verify_token(token)
