@@ -18,3 +18,21 @@ def get_jwks() -> Dict:
     response.raise_for_status()
     return response.json()
 
+def verify_token(token: str) -> Dict:
+    try:
+        jwks = get_jwks()
+        payload = jwt.decode(token, jwks, algorithms=["RS256"], issuer=os.getenv("CLERK_ISSUER"), options={"verify_signature": True, "verify_exp": True, "verify_iss": True})
+        return payload
+    
+    except JWTError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Invalid authentication credentials: {str(e)}",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Authentication error: {str(e)}"
+        )
