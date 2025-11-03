@@ -4,7 +4,6 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { Dashboard } from "./getJwt";
 
 export default function App() {
   return (
@@ -15,7 +14,6 @@ export default function App() {
         </SignedOut>
         <SignedIn>
           <UserButton />
-          <Dashboard />
         </SignedIn>
       </header>
     </>

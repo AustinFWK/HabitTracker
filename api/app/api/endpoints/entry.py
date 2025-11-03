@@ -19,7 +19,4 @@ def create_entry(entry: EntryCreate, session = Depends(get_session), current_use
     session.refresh(db_entry)
     return db_entry
 
-@router.get("/test-auth")
-def test_auth(current_user: Dict = Depends(get_current_user)):
-    return {"message": "Authentication successful", "user": current_user["sub"]}
     
