@@ -10,7 +10,7 @@ router = APIRouter(
     tags=["entry"]
 )
 
-@router.post("/", response_model=EntryRead)
+@router.post("/create/", response_model=EntryRead)
 def create_entry(entry: EntryCreate, session = Depends(get_session), current_user: Dict = Depends(get_current_user)) -> DailyEntry:
     clerk_user_id = current_user["sub"]
     db_entry = DailyEntry(entry=entry.entry, clerk_user_id=clerk_user_id)
@@ -19,4 +19,11 @@ def create_entry(entry: EntryCreate, session = Depends(get_session), current_use
     session.refresh(db_entry)
     return db_entry
 
-    
+@router.get("/{id}", response_model=EntryRead)
+def get_entry(id: int, current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> DailyEntry:
+    clerk_user_id = current_user["sub"]
+    db_entry = session.query(DailyEntry).filter(DailyEntry.id == id, DailyEntry.clerk_user_id == clerk_user_id).first()
+
+    if not db_entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    return db_entry
