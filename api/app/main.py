@@ -2,6 +2,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api.endpoints import user, entry
 from app.db.database import engine, Base
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 Base.metadata.create_all(bind=engine)

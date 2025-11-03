@@ -6,7 +6,7 @@ export function Dashboard() {
   async function fetchData() {
     const token = await getToken({ template: "backend" });
 
-    const response = await fetch("http://127.0.0.1:8000", {
+    const response = await fetch("http://127.0.0.1:8000/entry/test-auth", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
