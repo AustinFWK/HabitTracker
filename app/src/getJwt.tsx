@@ -1,5 +1,7 @@
 import { useAuth } from "@clerk/clerk-react";
 
+//keeping component in repo for now, may use later
+
 export function Dashboard() {
   const { getToken } = useAuth();
 
