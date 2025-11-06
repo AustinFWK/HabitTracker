@@ -3,14 +3,15 @@ from app.schemas.entry import EntryRead, EntryCreate, EntryUpdate
 from app.models.entry import DailyEntry
 from app.db.database import get_session
 from app.core.auth import get_current_user
-from typing import Dict
+from typing import Dict, List
 
 router = APIRouter(
     prefix="/entry",
     tags=["entry"]
 )
 
-@router.post("/create/", response_model=EntryRead)
+#currently this creates an entry, but it's just a string
+@router.post("/create", response_model=EntryRead)
 def create_entry(entry: EntryCreate, session = Depends(get_session), current_user: Dict = Depends(get_current_user)) -> DailyEntry:
     clerk_user_id = current_user["sub"]
     db_entry = DailyEntry(entry=entry.entry, clerk_user_id=clerk_user_id)
@@ -19,6 +20,7 @@ def create_entry(entry: EntryCreate, session = Depends(get_session), current_use
     session.refresh(db_entry)
     return db_entry
 
+#this gets an individual entry by id
 @router.get("/{id}", response_model=EntryRead)
 def get_entry(id: int, current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> DailyEntry:
     clerk_user_id = current_user["sub"]
@@ -27,3 +29,13 @@ def get_entry(id: int, current_user: Dict = Depends(get_current_user), session =
     if not db_entry:
         raise HTTPException(status_code=404, detail="Entry not found")
     return db_entry
+
+#this gets all entries for the current user
+@router.get("/all", response_model=List[EntryRead])
+def get_all_entries(current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> List[DailyEntry]:
+    clerk_user_id = current_user["sub"]
+    db_entries = session.query(DailyEntry).filter(DailyEntry.clerk_user_id == clerk_user_id).all()
+
+    if not db_entries:
+        raise HTTPException(status_code=404, detail="No entries found")
+    return db_entries
