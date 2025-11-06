@@ -13,4 +13,4 @@ class DailyEntry(Base):
 
     #commented out date and userid until i program them to be automatically configured
 
-    User = relationship("User", back_populates="daily_entries")
+    owner = relationship("User", back_populates="daily_entries")

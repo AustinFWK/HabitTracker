@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from .api.endpoints import user, entry
 from app.db.database import engine, Base
+from app.models import User, DailyEntry  # Import models before creating tables
 from dotenv import load_dotenv
 
 load_dotenv()
