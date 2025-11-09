@@ -34,8 +34,8 @@ def get_entry(id: int, current_user: Dict = Depends(get_current_user), session =
 @router.get("/all", response_model=List[EntryRead])
 def get_all_entries(current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> List[DailyEntry]:
     clerk_user_id = current_user["sub"]
-    db_entries = session.query(DailyEntry).filter(DailyEntry.clerk_user_id == clerk_user_id).all()
+    db_entry = session.query(DailyEntry).filter(DailyEntry.clerk_user_id == clerk_user_id).all()
 
-    if not db_entries:
+    if not db_entry:
         raise HTTPException(status_code=404, detail="No entries found")
-    return db_entries
+    return db_entry
