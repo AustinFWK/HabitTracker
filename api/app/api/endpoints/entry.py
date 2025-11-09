@@ -52,3 +52,19 @@ async def delete_entry(id: int, current_user: Dict = Depends(get_current_user), 
     session.delete(db_entry)
     session.commit()
     return None
+
+#this updates an entry by id
+@router.put("/{id}", response_model=EntryRead)
+def update_entry(id: int, entry_update: EntryUpdate, current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> DailyEntry:
+    clerk_user_id = current_user["sub"]
+    db_entry = session.query(DailyEntry).filter(DailyEntry.id == id, DailyEntry.clerk_user_id == clerk_user_id).first()
+
+    if not db_entry:
+        raise HTTPException(status_code=404, detail="Entry not found")
+    
+    if entry_update.entry is not None:
+        db_entry.entry = entry_update.entry
+    
+    session.commit()
+    session.refresh(db_entry)
+    return db_entry
