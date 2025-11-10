@@ -9,7 +9,7 @@ class DailyCheckInRead(BaseModel):
     entry_id: int
     entry: str
 
-    mood_scale_id: int
+    mood_id: int
     mood_scale: int
 
     date: date
