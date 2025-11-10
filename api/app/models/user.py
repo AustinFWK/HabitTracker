@@ -9,4 +9,5 @@ class User(Base):
     clerk_user_id = Column(String, primary_key=True, index=True)
 
     daily_entries = relationship("DailyEntry", back_populates="owner")
+    mood_entries = relationship("MoodEntry", back_populates="owner")
 
