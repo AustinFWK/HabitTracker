@@ -17,3 +17,13 @@ class DailyCheckInRead(BaseModel):
 
     class Config:
         orm_mode = True
+
+class DailyCheckInList(BaseModel):
+    date: date
+    mood_scale: int
+    mood_id: int
+    entry: str
+    entry_id: int
+
+    class Config:
+        orm_mode = True
