@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import date
 
 class EntryCreate(BaseModel):
     entry: str
@@ -10,8 +11,7 @@ class EntryCreate(BaseModel):
 class EntryRead(BaseModel):
     id: int
     entry: str
-    #commenting out habit date until i configure a way to automatically set the date upon creating an entry
-    #habit_date: str
+    date: date
     clerk_user_id: str
 
     class Config:
