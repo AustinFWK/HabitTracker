@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
-from datetime import date
+from datetime import date, datetime
 
 class EntryCreate(BaseModel):
     entry: str
@@ -12,6 +12,7 @@ class EntryRead(BaseModel):
     id: int
     entry: str
     date: date
+    created_at: datetime
     clerk_user_id: str
 
     class Config:
