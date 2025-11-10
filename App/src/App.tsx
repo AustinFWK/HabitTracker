@@ -5,8 +5,6 @@ import {
   UserButton,
 } from "@clerk/clerk-react";
 
-// test
-
 export default function App() {
   return (
     <>
