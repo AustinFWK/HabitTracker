@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .api.endpoints import user, entry
+from .api.endpoints import user, entry, daily_checkin
 from app.db.database import engine, Base
-from app.models import User, DailyEntry  # Import models before creating tables
+from app.models import User, DailyEntry, MoodEntry  # Import models before creating tables
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -25,6 +25,7 @@ app.add_middleware(
 
 app.include_router(user.router)
 app.include_router(entry.router)
+app.include_router(daily_checkin.router)
 
 
 # code to get clerk jwt in browser await window.Clerk.session.getToken()
