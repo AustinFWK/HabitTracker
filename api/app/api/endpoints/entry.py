@@ -66,5 +66,4 @@ def update_entry(id: int, entry_update: EntryUpdate, current_user: Dict = Depend
         db_entry.entry = entry_update.entry
     
     session.commit()
-    session.refresh(db_entry)
     return db_entry
