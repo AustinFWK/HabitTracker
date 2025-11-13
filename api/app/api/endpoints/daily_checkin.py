@@ -61,7 +61,7 @@ def get_check_in_by_date(date: date, session=Depends(get_session), current_user=
             entry_id=entry.id
         ) for entry, mood in result]
 
-#updates indvidual daily check-ins
+#updates indvidual daily check-ins through a date parameter
 @router.put("/update/{date}", response_model=DailyCheckInList)
 def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, session=Depends(get_session), current_user=Depends(get_current_user)) -> DailyCheckInList:
     clerk_user_id = current_user["sub"]
@@ -84,3 +84,16 @@ def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, ses
         mood_id=mood.id,
         entry=entry.entry,
         entry_id=entry.id)
+
+@router.delete("/delete/{date}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_check_in_by_date(date: date, session=Depends(get_session), current_user=Depends(get_current_user)):
+    clerk_user_id = current_user["sub"]
+    result = session.query(DailyEntry, MoodEntry).join(MoodEntry, (MoodEntry.date == DailyEntry.date) & (MoodEntry.clerk_user_id == DailyEntry.clerk_user_id)).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date).first()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="No check-in found for this date")
+    
+    entry, mood = result
+    session.delete(entry)
+    session.delete(mood)
+    session.commit()
