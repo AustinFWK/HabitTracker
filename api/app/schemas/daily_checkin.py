@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import date, datetime
+from typing import Optional
 
 class DailyCheckInCreate(BaseModel):
     entry: str
@@ -27,3 +28,7 @@ class DailyCheckInList(BaseModel):
 
     class Config:
         orm_mode = True
+
+class DailyCheckInUpdate(BaseModel):
+    entry: Optional[str] = None
+    mood_scale: Optional[int] = None

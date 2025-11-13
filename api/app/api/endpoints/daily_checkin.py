@@ -26,6 +26,7 @@ def create_check_in(check_in: DailyCheckInCreate, session=Depends(get_session), 
     session.refresh(db_mood_entry)
     return DailyCheckInRead(entry_id=db_entry.id, entry=db_entry.entry, mood_id=db_mood_entry.id, mood_scale=db_mood_entry.mood_scale, date=db_mood_entry.date, created_at=db_mood_entry.created_at)
 
+#get all check-ins for the current user
 @router.get("", response_model=List[DailyCheckInList])
 def get_all_check_ins(session=Depends(get_session), current_user=Depends(get_current_user)) -> List[DailyCheckInList]:
     clerk_user_id = current_user["sub"]
@@ -59,3 +60,4 @@ def get_check_in_by_date(date: date, session=Depends(get_session), current_user=
             entry=entry.entry,
             entry_id=entry.id
         ) for entry, mood in result]
+
