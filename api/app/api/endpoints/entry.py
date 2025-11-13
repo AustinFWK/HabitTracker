@@ -54,7 +54,7 @@ async def delete_entry(id: int, current_user: Dict = Depends(get_current_user), 
     return None
 
 #this updates an entry by id
-@router.put("/{id}", response_model=EntryRead)
+@router.put("/update/{id}", response_model=EntryRead)
 def update_entry(id: int, entry_update: EntryUpdate, current_user: Dict = Depends(get_current_user), session = Depends(get_session)) -> DailyEntry:
     clerk_user_id = current_user["sub"]
     db_entry = session.query(DailyEntry).filter(DailyEntry.id == id, DailyEntry.clerk_user_id == clerk_user_id).first()

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from app.schemas.daily_checkin import DailyCheckInCreate, DailyCheckInRead, DailyCheckInList
+from app.schemas.daily_checkin import DailyCheckInCreate, DailyCheckInRead, DailyCheckInList, DailyCheckInUpdate
 from app.models.entry import DailyEntry
 from app.models.mood_entry import MoodEntry
 from app.db.database import get_session
@@ -61,3 +61,26 @@ def get_check_in_by_date(date: date, session=Depends(get_session), current_user=
             entry_id=entry.id
         ) for entry, mood in result]
 
+#updates indvidual daily check-ins
+@router.put("/update/{date}", response_model=DailyCheckInList)
+def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, session=Depends(get_session), current_user=Depends(get_current_user)) -> DailyCheckInList:
+    clerk_user_id = current_user["sub"]
+    result = session.query(DailyEntry, MoodEntry).join(MoodEntry, (MoodEntry.date == DailyEntry.date) & (MoodEntry.clerk_user_id == DailyEntry.clerk_user_id)).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date).first()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="No check-in found for this date")
+
+    entry, mood = result
+    if check_in_update.entry is not None:
+        entry.entry = check_in_update.entry
+    if check_in_update.mood_scale is not None:
+        mood.mood_scale = check_in_update.mood_scale
+    
+    session.commit()
+
+    return DailyCheckInList(
+        date=entry.date,
+        mood_scale=mood.mood_scale,
+        mood_id=mood.id,
+        entry=entry.entry,
+        entry_id=entry.id)
