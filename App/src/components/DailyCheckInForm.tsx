@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "@clerk/clerk-react";
 
 function DailyCheckInForm() {
   const [entry, setEntry] = useState("");
@@ -7,6 +8,9 @@ function DailyCheckInForm() {
     entry: "",
     moodScale: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [apiError, setApiError] = useState("");
 
   const moods = [
     { value: 1, label: "Very Bad" },
@@ -16,7 +20,7 @@ function DailyCheckInForm() {
     { value: 5, label: "Very Good" },
   ];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setError({ entry: "", moodScale: "" });
