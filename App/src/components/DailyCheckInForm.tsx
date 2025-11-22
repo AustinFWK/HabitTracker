@@ -61,6 +61,7 @@ function DailyCheckInForm() {
         console.log("Success!", data);
 
         setSuccessMessage("Check-in submitted succesfully!");
+        setTimeout(() => setSuccessMessage(""), 3000);
         setEntry("");
         setMoodScale(null);
       } catch (error) {
@@ -76,12 +77,15 @@ function DailyCheckInForm() {
     <div>
       <h2>Daily Check-In</h2>
       <form onSubmit={handleSubmit}>
+        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+        {apiError && <p style={{ color: "red" }}>{apiError}</p>}
         <p>Entry: {entry}</p>
         <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
         {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
         <p>Mood Scale: {moodScale}</p>
         {moods.map((mood) => (
           <button
+            type="button"
             key={mood.value}
             onClick={() => setMoodScale(mood.value)}
             style={{
