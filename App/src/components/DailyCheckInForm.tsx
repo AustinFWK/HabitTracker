@@ -24,7 +24,6 @@ function DailyCheckInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const token = await getToken({ template: "backend" });
 
     setError({ entry: "", moodScale: "" });
     let isValid = true;
@@ -43,9 +42,9 @@ function DailyCheckInForm() {
     setError(newError);
 
     if (isValid) {
-      const token = await getToken({ template: "backend" });
       setIsLoading(true);
       try {
+        const token = await getToken({ template: "backend" });
         const response = await fetch("http://127.0.0.1:8000/check_in/create", {
           method: "POST",
           headers: {
@@ -96,7 +95,9 @@ function DailyCheckInForm() {
           </button>
         ))}
         {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Submitting..." : "Submit"}
+        </button>
       </form>
     </div>
   );
