@@ -54,8 +54,21 @@ function DailyCheckInForm() {
           },
           body: JSON.stringify({ entry: entry, mood_scale: moodScale }),
         });
-      } catch (error) {}
-      console.log("Form is valid, ready to submit");
+        if (!response.ok) {
+          throw new Error("Failed to submit check-in");
+        }
+        const data = await response.json();
+        console.log("Success!", data);
+
+        setSuccessMessage("Check-in submitted succesfully!");
+        setEntry("");
+        setMoodScale(null);
+      } catch (error) {
+        console.error("Error submitting check-in:", error);
+        setApiError("Failed to submit check-in. Please try again.");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
