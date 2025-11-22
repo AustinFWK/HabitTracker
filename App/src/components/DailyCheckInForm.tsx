@@ -12,6 +12,8 @@ function DailyCheckInForm() {
   const [successMessage, setSuccessMessage] = useState("");
   const [apiError, setApiError] = useState("");
 
+  const { getToken } = useAuth();
+
   const moods = [
     { value: 1, label: "Very Bad" },
     { value: 2, label: "Bad" },
@@ -22,6 +24,7 @@ function DailyCheckInForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = await getToken({ template: "backend" });
 
     setError({ entry: "", moodScale: "" });
     let isValid = true;
@@ -40,6 +43,18 @@ function DailyCheckInForm() {
     setError(newError);
 
     if (isValid) {
+      const token = await getToken({ template: "backend" });
+      setIsLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/check_in/create", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ entry: entry, mood_scale: moodScale }),
+        });
+      } catch (error) {}
       console.log("Form is valid, ready to submit");
     }
   };
