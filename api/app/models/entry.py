@@ -9,6 +9,7 @@ class DailyEntry(Base):
     id = Column(Integer, primary_key=True, index=True)
     clerk_user_id = Column(String, ForeignKey("users.clerk_user_id")) 
     entry = Column(String, index=True)
+    ai_feedback = Column(String, index=True)
     date = Column(Date, index=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

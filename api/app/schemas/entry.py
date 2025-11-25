@@ -14,6 +14,7 @@ class EntryRead(BaseModel):
     date: date
     created_at: datetime
     clerk_user_id: str
+    ai_feedback: Optional[str] = None
 
     class Config:
         orm_mode = True
