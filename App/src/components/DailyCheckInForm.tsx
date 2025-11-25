@@ -11,6 +11,7 @@ function DailyCheckInForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [apiError, setApiError] = useState("");
+  const [aiFeedback, setAiFeedback] = useState("");
 
   const { getToken } = useAuth();
 
@@ -43,6 +44,7 @@ function DailyCheckInForm() {
 
     if (isValid) {
       setIsLoading(true);
+      setAiFeedback("");
       try {
         const token = await getToken({ template: "backend" });
         const response = await fetch("http://127.0.0.1:8000/check_in/create", {
@@ -56,7 +58,13 @@ function DailyCheckInForm() {
         if (!response.ok) {
           throw new Error("Failed to submit check-in");
         }
+
         const data = await response.json();
+
+        if (data.ai_feedback) {
+          setAiFeedback(data.ai_feedback);
+        }
+
         console.log("Success!", data);
 
         setSuccessMessage("Check-in submitted succesfully!");
@@ -98,6 +106,21 @@ function DailyCheckInForm() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Submitting..." : "Submit"}
         </button>
+        {aiFeedback && (
+          <div
+            style={{
+              marginTop: "2rem",
+              padding: "1rem",
+              borderLeft: "4px solid #3b82f6",
+              borderRadius: "4px",
+            }}
+          >
+            <h3 style={{ marginTop: 0, color: "#1e40af" }}>💡 AI Insights</h3>
+            <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>
+              {aiFeedback}
+            </p>
+          </div>
+        )}
       </form>
     </div>
   );
