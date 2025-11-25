@@ -45,7 +45,8 @@ def get_all_check_ins(session=Depends(get_session), current_user=Depends(get_cur
             mood_scale=mood.mood_scale,
             mood_id=mood.id,
             entry=entry.entry,
-            entry_id=entry.id
+            entry_id=entry.id,
+            ai_feedback=entry.ai_feedback
         ) for entry, mood in result]
 
 
@@ -63,7 +64,8 @@ def get_check_in_by_date(date: date, session=Depends(get_session), current_user=
             mood_scale=mood.mood_scale,
             mood_id=mood.id,
             entry=entry.entry,
-            entry_id=entry.id
+            entry_id=entry.id,
+            ai_feedback=entry.ai_feedback
         ) for entry, mood in result]
 
 #updates indvidual daily check-ins through a date parameter
