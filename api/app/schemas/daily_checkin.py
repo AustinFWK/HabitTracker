@@ -16,6 +16,9 @@ class DailyCheckInRead(BaseModel):
     date: date
     created_at: datetime
 
+    ai_feedback: Optional[str] = None
+
+
     class Config:
         orm_mode = True
 
@@ -25,6 +28,8 @@ class DailyCheckInList(BaseModel):
     mood_id: int
     entry: str
     entry_id: int
+    ai_feedback: Optional[str] = None
+
 
     class Config:
         orm_mode = True
