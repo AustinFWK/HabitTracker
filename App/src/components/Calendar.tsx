@@ -26,13 +26,34 @@ function Calendar() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const { getToken } = useAuth();
+
   const handleDateChange = async (date: Dayjs | null) => {
-    if(!date) return;
+    if (!date) return;
 
     setSelectedDate(date);
     setIsLoading(true);
     setError("");
     setIsDialogOpen(true);
 
+    const formattedDate = date.format("YYYY-MM-DD");
 
+    try {
+        const token = await getToken({ template: "backend" });
+
+        const response = await fetch(
+            `http://localhost:5173/check_in/${formattedDate}`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        if (!response.ok) {
+            throw new Error("Failed to fetch check-in data");
+        }
+                }
+  };
 }
