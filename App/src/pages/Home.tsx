@@ -1,3 +1,4 @@
+import Calendar from "../components/Calendar";
 import DailyCheckInForm from "../components/DailyCheckInForm";
 function Home() {
   return (
@@ -5,6 +6,7 @@ function Home() {
       <h1>Home</h1>
       <p>Welcome to the Home page!</p>
       <DailyCheckInForm />
+      <Calendar />
     </div>
   );
 }
