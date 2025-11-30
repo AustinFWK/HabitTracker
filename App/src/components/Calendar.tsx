@@ -42,7 +42,7 @@ function Calendar() {
       const token = await getToken({ template: "backend" });
 
       const response = await fetch(
-        `http://localhost:5173/check_in/${formattedDate}`,
+        `http://127.0.0.1:8000/check_in/${formattedDate}`,
         {
           method: "GET",
           headers: {
@@ -52,7 +52,13 @@ function Calendar() {
         }
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch check-in data");
+        if (response.status === 404) {
+          setError("No check-in found for the selected date.");
+          setCheckInData(null);
+          return;
+        } else {
+          throw new Error("Failed to fetch check-in data");
+        }
       }
       const data = await response.json();
       setCheckInData(data);
