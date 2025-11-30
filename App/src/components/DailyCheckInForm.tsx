@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
+import { MOODS } from "../utils/moods";
 
 function DailyCheckInForm() {
   const [entry, setEntry] = useState("");
@@ -14,14 +15,6 @@ function DailyCheckInForm() {
   const [aiFeedback, setAiFeedback] = useState("");
 
   const { getToken } = useAuth();
-
-  const moods = [
-    { value: 1, label: "Very Bad" },
-    { value: 2, label: "Bad" },
-    { value: 3, label: "Neutral" },
-    { value: 4, label: "Good" },
-    { value: 5, label: "Very Good" },
-  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,7 +83,7 @@ function DailyCheckInForm() {
         <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
         {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
         <p>Mood Scale: {moodScale}</p>
-        {moods.map((mood) => (
+        {MOODS.map((mood) => (
           <button
             type="button"
             key={mood.value}
