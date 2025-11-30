@@ -39,21 +39,27 @@ function Calendar() {
     const formattedDate = date.format("YYYY-MM-DD");
 
     try {
-        const token = await getToken({ template: "backend" });
+      const token = await getToken({ template: "backend" });
 
-        const response = await fetch(
-            `http://localhost:5173/check_in/${formattedDate}`,
-            {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "application/json",
-                },
-            }
-        );
-        if (!response.ok) {
-            throw new Error("Failed to fetch check-in data");
+      const response = await fetch(
+        `http://localhost:5173/check_in/${formattedDate}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         }
-                }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch check-in data");
+      }
+      const data = await response.json();
+      setCheckInData(data);
+    } catch (error) {
+      setError("Error fetching check-in data");
+    } finally {
+      setIsLoading(false);
+    }
   };
 }

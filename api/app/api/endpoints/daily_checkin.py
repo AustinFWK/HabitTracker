@@ -51,22 +51,24 @@ def get_all_check_ins(session=Depends(get_session), current_user=Depends(get_cur
 
 
 #get individual check-in by date for the current user
-@router.get("/{date}", response_model=List[DailyCheckInList])
-def get_check_in_by_date(date: date, session=Depends(get_session), current_user=Depends(get_current_user)) -> List[DailyCheckInList]:
+@router.get("/{date}", response_model=DailyCheckInList)
+def get_check_in_by_date(date: date, session=Depends(get_session), current_user=Depends(get_current_user)) -> DailyCheckInList:
     clerk_user_id = current_user["sub"]
-    result = session.query(DailyEntry, MoodEntry).join(MoodEntry, (MoodEntry.date == DailyEntry.date) & (MoodEntry.clerk_user_id == DailyEntry.clerk_user_id)).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date).all()
+    result = session.query(DailyEntry, MoodEntry).join(MoodEntry, (MoodEntry.date == DailyEntry.date) & (MoodEntry.clerk_user_id == DailyEntry.clerk_user_id)).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date).first()
 
     if not result:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="No check-in found for the specified date.")
+    
+    entry, mood = result
 
-    return [DailyCheckInList(
+    return DailyCheckInList(
             date=entry.date,
             mood_scale=mood.mood_scale,
             mood_id=mood.id,
             entry=entry.entry,
             entry_id=entry.id,
             ai_feedback=entry.ai_feedback
-        ) for entry, mood in result]
+        )
 
 #updates indvidual daily check-ins through a date parameter
 @router.put("/update/{date}", response_model=DailyCheckInList)
