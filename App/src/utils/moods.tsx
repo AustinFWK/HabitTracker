@@ -1,11 +1,12 @@
-export const getMoodLabel = (moodScale: number): string => {
-  const moods: { [key: number]: string } = {
-    1: "Very Bad",
-    2: "Bad",
-    3: "Neutral",
-    4: "Good",
-    5: "Very Good",
-  };
+export const MOODS = [
+  { value: 1, label: "Very Bad" },
+  { value: 2, label: "Bad" },
+  { value: 3, label: "Neutral" },
+  { value: 4, label: "Good" },
+  { value: 5, label: "Very Good" },
+];
 
-  return moods[moodScale] || "Unknown Mood";
+export const getMoodLabel = (moodScale: number): string => {
+  const mood = MOODS.find((m) => m.value === moodScale);
+  return mood?.label || "Unknown";
 };

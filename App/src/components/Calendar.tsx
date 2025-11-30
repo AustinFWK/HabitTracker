@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Dayjs } from "dayjs";
 import { useAuth } from "@clerk/clerk-react";
+import { getMoodLabel } from "../utils/moods";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import {
