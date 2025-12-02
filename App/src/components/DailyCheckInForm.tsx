@@ -2,7 +2,12 @@ import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { MOODS } from "../utils/moods";
 
-function DailyCheckInForm() {
+interface CheckInModal {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   const [entry, setEntry] = useState("");
   const [moodScale, setMoodScale] = useState<number | null>(null);
   const [error, setError] = useState({
@@ -72,6 +77,8 @@ function DailyCheckInForm() {
       }
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div>
