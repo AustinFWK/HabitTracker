@@ -86,6 +86,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     setSuccessMessage("");
     setApiError("");
     setAiFeedback("");
+    onClose();
   };
 
   if (!isOpen) return null;
