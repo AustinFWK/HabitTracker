@@ -69,6 +69,13 @@ function MoodGraph() {
               scaleType: "point",
             },
           ]}
+          yAxis={[
+            {
+              min: 1,
+              max: 5,
+              tickNumber: 5,
+            },
+          ]}
           series={[
             {
               data: moods,
@@ -77,6 +84,7 @@ function MoodGraph() {
           ]}
           width={600}
           height={300}
+          margin={{ left: 50, right: 50, top: 50, bottom: 50 }}
         />
       ) : (
         <Box sx={{ textAlign: "center", padding: 3 }}>
