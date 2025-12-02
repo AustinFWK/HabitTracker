@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { MOODS } from "../utils/moods";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface CheckInModal {
   isOpen: boolean;
@@ -78,50 +79,65 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     }
   };
 
+  const handleClose = () => {
+    setEntry("");
+    setMoodScale(null);
+    setError({ entry: "", moodScale: "" });
+    setSuccessMessage("");
+    setApiError("");
+    setAiFeedback("");
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div>
-      <h2>Daily Check-In</h2>
-      <form onSubmit={handleSubmit}>
-        {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-        {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-        <p>Entry: {entry}</p>
-        <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
-        {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
-        <p>Mood Scale: {moodScale}</p>
-        {MOODS.map((mood) => (
-          <button
-            type="button"
-            key={mood.value}
-            onClick={() => setMoodScale(mood.value)}
-            style={{
-              border: moodScale === mood.value ? "2px solid blue" : "none",
-            }}
-          >
-            {mood.label}
+    <div className="modal-overlay" onClick={handleClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <CloseIcon
+          onClick={handleClose}
+          style={{ cursor: "pointer", float: "right" }}
+        />
+        <h2>Daily Check-In</h2>
+        <form onSubmit={handleSubmit}>
+          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+          {apiError && <p style={{ color: "red" }}>{apiError}</p>}
+          <p>Entry: {entry}</p>
+          <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
+          {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
+          <p>Mood Scale: {moodScale}</p>
+          {MOODS.map((mood) => (
+            <button
+              type="button"
+              key={mood.value}
+              onClick={() => setMoodScale(mood.value)}
+              style={{
+                border: moodScale === mood.value ? "2px solid blue" : "none",
+              }}
+            >
+              {mood.label}
+            </button>
+          ))}
+          {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Submitting..." : "Submit"}
           </button>
-        ))}
-        {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Submitting..." : "Submit"}
-        </button>
-        {aiFeedback && (
-          <div
-            style={{
-              marginTop: "2rem",
-              padding: "1rem",
-              borderLeft: "4px solid #3b82f6",
-              borderRadius: "4px",
-            }}
-          >
-            <h3 style={{ marginTop: 0, color: "#1e40af" }}>💡 AI Insights</h3>
-            <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>
-              {aiFeedback}
-            </p>
-          </div>
-        )}
-      </form>
+          {aiFeedback && (
+            <div
+              style={{
+                marginTop: "2rem",
+                padding: "1rem",
+                borderLeft: "4px solid #3b82f6",
+                borderRadius: "4px",
+              }}
+            >
+              <h3 style={{ marginTop: 0, color: "#1e40af" }}>💡 AI Insights</h3>
+              <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>
+                {aiFeedback}
+              </p>
+            </div>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
