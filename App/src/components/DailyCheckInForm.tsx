@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { MOODS } from "../utils/moods";
 import CloseIcon from "@mui/icons-material/Close";
+import "../styles/DailyCheckInForm.css";
 
 interface CheckInModal {
   isOpen: boolean;
