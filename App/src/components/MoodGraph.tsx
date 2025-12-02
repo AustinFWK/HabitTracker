@@ -1,6 +1,7 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
+import { Box, CircularProgress } from "@mui/material";
 
 interface CheckInData {
   date: string;
@@ -47,7 +48,43 @@ function MoodGraph() {
     fetchCheckIns();
   }, []);
 
-  return <div></div>;
+  const dates = checkIns.map((checkIn) => checkIn.date);
+  const moods = checkIns.map((checkIn) => checkIn.mood_scale);
+
+  return (
+    <div>
+      {isLoading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", padding: 3 }}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Box sx={{ color: "red", textAlign: "center", padding: 3 }}>
+          {error}
+        </Box>
+      ) : checkIns.length > 0 ? (
+        <LineChart
+          xAxis={[
+            {
+              data: dates,
+              scaleType: "point",
+            },
+          ]}
+          series={[
+            {
+              data: moods,
+              label: "Mood Rating",
+            },
+          ]}
+          width={600}
+          height={300}
+        />
+      ) : (
+        <Box sx={{ textAlign: "center", padding: 3 }}>
+          No check-in data yet, start tracking your mood now!
+        </Box>
+      )}
+    </div>
+  );
 }
 
 export default MoodGraph;
