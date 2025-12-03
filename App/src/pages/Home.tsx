@@ -15,7 +15,7 @@ function Home() {
   useEffect(() => {
     const getTodayCheckIn = async () => {
       const token = await getToken({ template: "backend" });
-      const todaysDate = new Date().toISOString().split("T")[0]; // "2025-12-02"
+      const todaysDate = new Date().toLocaleDateString("en-CA"); // "2025-12-02"
       const response = await fetch(
         `http://127.0.0.1:8000/check_in/${todaysDate}`,
         {
@@ -40,13 +40,17 @@ function Home() {
     <div>
       <h1>Home</h1>
       <p>Welcome to the Home page!</p>
-      <Button
-        variant="contained"
-        size="large"
-        onClick={() => setIsModalOpen(true)}
-      >
-        Log your day!
-      </Button>
+      {hasCheckedIn ? (
+        "Great job logging your habits today!"
+      ) : (
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => setIsModalOpen(true)}
+        >
+          Log your day!
+        </Button>
+      )}
       <DailyCheckInForm
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
