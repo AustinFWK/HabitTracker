@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { MOODS } from "../utils/moods";
 import CloseIcon from "@mui/icons-material/Close";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 import "../styles/DailyCheckInForm.css";
 
 interface CheckInModal {
@@ -110,9 +112,19 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
               <p style={{ color: "green" }}>{successMessage}</p>
             )}
             {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-            <textarea
+            <TextField
               value={entry}
-              onChange={(e) => setEntry(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length <= 1000) {
+                  setEntry(e.target.value);
+                }
+              }}
+              label="How was your day?"
+              multiline
+              rows={4}
+              fullWidth
+              color="primary"
+              helperText={`${entry.length}/1000 characters`}
             />
             {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
             <p>Mood Scale: {moodScale}</p>
