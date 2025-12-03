@@ -20,6 +20,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   const [successMessage, setSuccessMessage] = useState("");
   const [apiError, setApiError] = useState("");
   const [aiFeedback, setAiFeedback] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { getToken } = useAuth();
 
@@ -88,6 +89,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     setApiError("");
     setAiFeedback("");
     onClose();
+    setIsSubmitted(false);
   };
 
   if (!isOpen) return null;
@@ -100,29 +102,33 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
           style={{ cursor: "pointer", float: "right" }}
         />
         <h2>Daily Check-In</h2>
-        <form onSubmit={handleSubmit}>
-          {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-          {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-          <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
-          {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
-          <p>Mood Scale: {moodScale}</p>
-          {MOODS.map((mood) => (
-            <button
-              type="button"
-              key={mood.value}
-              onClick={() => setMoodScale(mood.value)}
-              style={{
-                border: moodScale === mood.value ? "2px solid blue" : "none",
-              }}
-            >
-              {mood.label}
+
+        {!isSubmitted ? (
+          <form onSubmit={handleSubmit}>
+            {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+            {apiError && <p style={{ color: "red" }}>{apiError}</p>}
+            <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
+            {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
+            <p>Mood Scale: {moodScale}</p>
+            {MOODS.map((mood) => (
+              <button
+                type="button"
+                key={mood.value}
+                onClick={() => setMoodScale(mood.value)}
+                style={{
+                  border: moodScale === mood.value ? "2px solid blue" : "none",
+                }}
+              >
+                {mood.label}
+              </button>
+            ))}
+            {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
+            <button type="submit" disabled={isLoading}>
+              {isLoading ? "Submitting..." : "Submit"}
             </button>
-          ))}
-          {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Submitting..." : "Submit"}
-          </button>
-          {aiFeedback && (
+          </form>
+        ) : (
+          aiFeedback && (
             <div
               style={{
                 marginTop: "2rem",
@@ -136,8 +142,8 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
                 {aiFeedback}
               </p>
             </div>
-          )}
-        </form>
+          )
+        )}
       </div>
     </div>
   );
