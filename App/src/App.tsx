@@ -24,10 +24,15 @@ export default function App() {
             </nav>
           </SignedIn>
         </header>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/history" element={<History />} />
-        </Routes>
+        <SignedOut>
+          <div>Please sign in to continue</div>
+        </SignedOut>
+        <SignedIn>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/history" element={<History />} />
+          </Routes>
+        </SignedIn>
       </>
     </BrowserRouter>
   );
