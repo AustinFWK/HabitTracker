@@ -18,6 +18,10 @@ router = APIRouter(
 def create_check_in(check_in: DailyCheckInCreate, session=Depends(get_session), current_user=Depends(get_current_user)) -> DailyCheckInRead:
     clerk_user_id = current_user["sub"]
 
+    existing_entry = session.query(DailyEntry).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date.today()).first()
+    if existing_entry():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Check-in for today already exists.")
+
     ai_service = AIService()
     ai_feedback = ai_service.generate_feedback(check_in.entry, check_in.mood_scale)
 

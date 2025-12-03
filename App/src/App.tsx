@@ -13,9 +13,6 @@ export default function App() {
     <BrowserRouter>
       <>
         <header>
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
           <SignedIn>
             <UserButton />
             <nav>
@@ -25,7 +22,20 @@ export default function App() {
           </SignedIn>
         </header>
         <SignedOut>
-          <div>Please sign in to continue</div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              height: "80vh",
+              textAlign: "center",
+            }}
+          >
+            <h1>Welcome to HabitTracker!</h1>
+            <p>Sign in to track your daily habits and moods</p>
+            <SignInButton mode="modal" />
+          </div>
         </SignedOut>
         <SignedIn>
           <Routes>
