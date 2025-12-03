@@ -19,7 +19,7 @@ def create_check_in(check_in: DailyCheckInCreate, session=Depends(get_session), 
     clerk_user_id = current_user["sub"]
 
     existing_entry = session.query(DailyEntry).filter(DailyEntry.clerk_user_id == clerk_user_id, DailyEntry.date == date.today()).first()
-    if existing_entry():
+    if existing_entry:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Check-in for today already exists.")
 
     ai_service = AIService()
