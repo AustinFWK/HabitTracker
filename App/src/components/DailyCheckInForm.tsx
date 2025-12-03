@@ -103,7 +103,6 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
         <form onSubmit={handleSubmit}>
           {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
           {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-          <p>Entry: {entry}</p>
           <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
           {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
           <p>Mood Scale: {moodScale}</p>
