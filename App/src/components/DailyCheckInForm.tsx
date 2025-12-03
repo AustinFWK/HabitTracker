@@ -69,6 +69,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
         console.log("Success!", data);
 
         setSuccessMessage("Check-in submitted succesfully!");
+        setIsSubmitted(true);
         setTimeout(() => setSuccessMessage(""), 3000);
         setEntry("");
         setMoodScale(null);
@@ -105,9 +106,14 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
 
         {!isSubmitted ? (
           <form onSubmit={handleSubmit}>
-            {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
+            {successMessage && (
+              <p style={{ color: "green" }}>{successMessage}</p>
+            )}
             {apiError && <p style={{ color: "red" }}>{apiError}</p>}
-            <textarea value={entry} onChange={(e) => setEntry(e.target.value)} />
+            <textarea
+              value={entry}
+              onChange={(e) => setEntry(e.target.value)}
+            />
             {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
             <p>Mood Scale: {moodScale}</p>
             {MOODS.map((mood) => (
@@ -122,7 +128,9 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
                 {mood.label}
               </button>
             ))}
-            {error.moodScale && <p style={{ color: "red" }}>{error.moodScale}</p>}
+            {error.moodScale && (
+              <p style={{ color: "red" }}>{error.moodScale}</p>
+            )}
             <button type="submit" disabled={isLoading}>
               {isLoading ? "Submitting..." : "Submit"}
             </button>
