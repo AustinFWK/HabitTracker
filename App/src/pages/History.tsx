@@ -1,8 +1,12 @@
+import { Typography } from "@mui/material";
+
 function History() {
   return (
     <div>
-      <h1>History</h1>
-      <p>This is the history page.</p>
+      <Typography variant="h3" gutterBottom>
+        History
+      </Typography>
+      <Typography variant="body1">This is the history page.</Typography>
     </div>
   );
 }

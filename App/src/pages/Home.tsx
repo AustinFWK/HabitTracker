@@ -2,7 +2,7 @@ import Calendar from "../components/Calendar";
 import DailyCheckInForm from "../components/DailyCheckInForm";
 import MoodGraph from "../components/MoodGraph";
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
 
@@ -38,10 +38,16 @@ function Home() {
 
   return (
     <div>
-      <h1>Home</h1>
-      <p>Welcome to the Home page!</p>
+      <Typography variant="h3" gutterBottom>
+        Home
+      </Typography>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        Welcome to the Home page!
+      </Typography>
       {hasCheckedIn ? (
-        "Great job logging your habits today!"
+        <Typography variant="h6" color="success.main">
+          Great job logging your habits today!
+        </Typography>
       ) : (
         <Button
           variant="contained"

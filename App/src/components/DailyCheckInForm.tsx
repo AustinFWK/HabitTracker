@@ -4,6 +4,7 @@ import { MOODS } from "../utils/moods";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 import "../styles/DailyCheckInForm.css";
 
 interface CheckInModal {
@@ -104,14 +105,22 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
           onClick={handleClose}
           style={{ cursor: "pointer", float: "right" }}
         />
-        <h2>Daily Check-In</h2>
+        <Typography variant="h4" gutterBottom>
+          Daily Check-In
+        </Typography>
 
         {!isSubmitted ? (
           <form onSubmit={handleSubmit}>
             {successMessage && (
-              <p style={{ color: "green" }}>{successMessage}</p>
+              <Typography color="success.main" sx={{ mb: 1 }}>
+                {successMessage}
+              </Typography>
             )}
-            {apiError && <p style={{ color: "red" }}>{apiError}</p>}
+            {apiError && (
+              <Typography color="error" sx={{ mb: 1 }}>
+                {apiError}
+              </Typography>
+            )}
             <TextField
               value={entry}
               onChange={(e) => {
@@ -126,8 +135,14 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
               color="primary"
               helperText={`${entry.length}/1000 characters`}
             />
-            {error.entry && <p style={{ color: "red" }}>{error.entry}</p>}
-            <p>Mood Scale: {moodScale}</p>
+            {error.entry && (
+              <Typography color="error" sx={{ mt: 1 }}>
+                {error.entry}
+              </Typography>
+            )}
+            <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+              Mood Scale: {moodScale}
+            </Typography>
             {MOODS.map((mood) => (
               <button
                 type="button"
@@ -141,7 +156,9 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
               </button>
             ))}
             {error.moodScale && (
-              <p style={{ color: "red" }}>{error.moodScale}</p>
+              <Typography color="error" sx={{ mt: 1 }}>
+                {error.moodScale}
+              </Typography>
             )}
             <button type="submit" disabled={isLoading}>
               {isLoading ? "Submitting..." : "Submit"}
@@ -149,19 +166,24 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
           </form>
         ) : (
           aiFeedback && (
-            <div
-              style={{
-                marginTop: "2rem",
-                padding: "1rem",
+            <Box
+              sx={{
+                mt: 4,
+                p: 2,
                 borderLeft: "4px solid #3b82f6",
-                borderRadius: "4px",
+                borderRadius: 1,
               }}
             >
-              <h3 style={{ marginTop: 0, color: "#1e40af" }}>💡 AI Insights</h3>
-              <p style={{ whiteSpace: "pre-wrap", lineHeight: "1.6" }}>
+              <Typography variant="h6" sx={{ mt: 0, color: "#1e40af", mb: 1 }}>
+                💡 AI Insights
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}
+              >
                 {aiFeedback}
-              </p>
-            </div>
+              </Typography>
+            </Box>
           )
         )}
       </div>

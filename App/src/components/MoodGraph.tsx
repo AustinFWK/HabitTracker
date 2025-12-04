@@ -1,7 +1,7 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 interface CheckInData {
   date: string;
@@ -58,8 +58,8 @@ function MoodGraph() {
           <CircularProgress />
         </Box>
       ) : error ? (
-        <Box sx={{ color: "red", textAlign: "center", padding: 3 }}>
-          {error}
+        <Box sx={{ textAlign: "center", padding: 3 }}>
+          <Typography color="error">{error}</Typography>
         </Box>
       ) : checkIns.length > 0 ? (
         <LineChart
@@ -88,7 +88,9 @@ function MoodGraph() {
         />
       ) : (
         <Box sx={{ textAlign: "center", padding: 3 }}>
-          No check-in data yet, start tracking your mood now!
+          <Typography variant="body1">
+            No check-in data yet, start tracking your mood now!
+          </Typography>
         </Box>
       )}
     </div>
