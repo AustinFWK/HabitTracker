@@ -24,10 +24,22 @@ export interface CreateCheckInResponse {
   entry_id: number;
 }
 
-//Function to get all check-ins
 export const checkInApi = {
+  //Function to get all check-ins
   getAll: async (): Promise<CheckInData[]> => {
     const response = await axiosInstance.get<CheckInData[]>("/check_in");
+    return response.data;
+  },
+
+  //Function to get specific check-in by date
+  getByDate: async (date: string): Promise<CheckInData> => {
+    const response = await axiosInstance.get<CheckInData>(`/check_in/${date}`);
+    return response.data;
+  },
+
+  //Function to create a new check-in
+  create: async (data: CheckInFormData): Promise<CreateCheckInResponse> => {
+    const response = await axiosInstance.post("/check_in/create", data);
     return response.data;
   },
 };
