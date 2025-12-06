@@ -1,25 +1,12 @@
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useAuth } from "@clerk/clerk-react";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
-interface CheckInData {
-  date: string;
-  mood_scale: number;
-  mood_id: number;
-  entry: string;
-  entry_id: number;
-  ai_feedback?: string;
-}
-
 function MoodGraph() {
-  const [checkIns, setCheckIns] = useState<CheckInData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
   const { getToken } = useAuth();
 
   useEffect(() => {
@@ -30,34 +17,14 @@ function MoodGraph() {
     );
   }, [getToken]);
 
-  useEffect(() => {
-    const fetchCheckIns = async () => {
-      setIsLoading(true);
-      setError("");
-
-      try {
-        const token = await getToken({ template: "backend" });
-        const response = await fetch("http://127.0.0.1:8000/check_in", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) {
-          throw new Error("Failed to fetch check-ins");
-        }
-
-        const data = await response.json();
-        setCheckIns(data);
-      } catch {
-        setError("Error fetching check-in data");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchCheckIns();
-  }, []);
+  const {
+    data: checkIns = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["checkIns"],
+    queryFn: checkInApi.getAll,
+  });
 
   const dates = checkIns.map((checkIn) => checkIn.date);
   const moods = checkIns.map((checkIn) => checkIn.mood_scale);
@@ -68,9 +35,9 @@ function MoodGraph() {
         <Box sx={{ display: "flex", justifyContent: "center", padding: 3 }}>
           <CircularProgress />
         </Box>
-      ) : error ? (
+      ) : isError ? (
         <Box sx={{ textAlign: "center", padding: 3 }}>
-          <Typography color="error">{error}</Typography>
+          <Typography color="error">{isError}</Typography>
         </Box>
       ) : checkIns.length > 0 ? (
         <LineChart
