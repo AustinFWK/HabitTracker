@@ -9,10 +9,7 @@ import "../styles/DailyCheckInForm.css";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
-import {
-  setAuthTokenGetter,
-  axiosInstance,
-} from "../../../api/app/axios/axiosInstance";
+import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
 interface CheckInModal {
   isOpen: boolean;
