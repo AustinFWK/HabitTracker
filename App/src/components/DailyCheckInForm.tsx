@@ -25,9 +25,6 @@ interface CheckInFormData {
 }
 
 function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [apiError, setApiError] = useState("");
   const [aiFeedback, setAiFeedback] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
 
