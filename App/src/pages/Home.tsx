@@ -16,6 +16,14 @@ function Home() {
   const { getToken } = useAuth();
 
   useEffect(() => {
+    setAuthTokenGetter(() =>
+      getToken({
+        template: "backend",
+      })
+    );
+  }, [getToken]);
+
+  useEffect(() => {
     const getTodayCheckIn = async () => {
       const token = await getToken({ template: "backend" });
       const todaysDate = new Date().toLocaleDateString("en-CA"); // "2025-12-02"
