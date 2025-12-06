@@ -2,6 +2,9 @@ import { LineChart } from "@mui/x-charts/LineChart";
 import { useAuth } from "@clerk/clerk-react";
 import { useState, useEffect } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { checkInApi } from "../../../api/app/api/services/checkInService";
+import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
 interface CheckInData {
   date: string;
