@@ -55,7 +55,7 @@ function Calendar() {
     retry: false,
   });
 
-  const handleDateChange = async (date: Dayjs | null) => {
+  const handleDateChange = (date: Dayjs | null) => {
     if (!date) return;
     setSelectedDate(date);
     setIsDialogOpen(true);
