@@ -47,7 +47,7 @@ function Calendar() {
   const {
     data: checkInData,
     isLoading,
-    error,
+    isError,
   } = useQuery({
     queryKey: ["checkIn", formattedDate],
     queryFn: () => checkInApi.getByDate(formattedDate),
@@ -81,8 +81,10 @@ function Calendar() {
             <Box sx={{ display: "flex", justifyContent: "center", padding: 3 }}>
               <CircularProgress />
             </Box>
-          ) : error ? (
-            <Typography color="error">{error}</Typography>
+          ) : isError ? (
+            <Typography color="error">
+              No check-in found for the selected date.
+            </Typography>
           ) : checkInData ? (
             <Box>
               <Typography variant="h6" gutterBottom>
