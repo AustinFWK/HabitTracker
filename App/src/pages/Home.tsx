@@ -5,6 +5,9 @@ import { useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { checkInApi } from "../../../api/app/api/services/checkInService";
+import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
 function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
