@@ -24,7 +24,7 @@ function Home() {
 
   const todaysDate = new Date().toLocaleDateString("en-CA"); // Format: YYYY-MM-DD
 
-  const { data: todayCheckIn, isLoading } = useQuery({
+  const { data: todayCheckIn } = useQuery({
     queryKey: ["checkIn", todaysDate],
     queryFn: () => checkInApi.getByDate(todaysDate),
     retry: false,

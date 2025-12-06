@@ -19,15 +19,6 @@ import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
-interface CheckInData {
-  entry: string;
-  mood_scale: number;
-  ai_feedback?: string;
-  date: string;
-  mood_id: number;
-  entry_id: number;
-}
-
 function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
