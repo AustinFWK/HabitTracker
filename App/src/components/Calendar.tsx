@@ -42,6 +42,19 @@ function Calendar() {
     );
   }, [getToken]);
 
+  const formattedDate = selectedDate?.format("YYYY-MM-DD") || "";
+
+  const {
+    data: checkInData,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["checkIn", formattedDate],
+    queryFn: () => checkInApi.getByDate(formattedDate),
+    enabled: !!selectedDate && isDialogOpen,
+    retry: false,
+  });
+
   const handleDateChange = async (date: Dayjs | null) => {
     if (!date) return;
 
