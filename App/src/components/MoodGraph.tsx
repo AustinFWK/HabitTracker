@@ -23,6 +23,14 @@ function MoodGraph() {
   const { getToken } = useAuth();
 
   useEffect(() => {
+    setAuthTokenGetter(() =>
+      getToken({
+        template: "backend",
+      })
+    );
+  }, [getToken]);
+
+  useEffect(() => {
     const fetchCheckIns = async () => {
       setIsLoading(true);
       setError("");
