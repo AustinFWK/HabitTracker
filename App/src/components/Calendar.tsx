@@ -46,6 +46,13 @@ function Calendar() {
     retry: false,
   });
 
+  const { data: checkIns = [] } = useQuery({
+    queryKey: ["checkIns"],
+    queryFn: checkInApi.getAll,
+  });
+
+  const checkInDates = new Set(checkIns.map((checkIn) => checkIn.date));
+
   const handleDateChange = (date: Dayjs | null) => {
     if (!date) return;
     setSelectedDate(date);
