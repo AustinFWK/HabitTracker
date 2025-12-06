@@ -37,7 +37,7 @@ function MoodGraph() {
         </Box>
       ) : isError ? (
         <Box sx={{ textAlign: "center", padding: 3 }}>
-          <Typography color="error">{isError}</Typography>
+          <Typography color="error">Error loading check-ins</Typography>
         </Box>
       ) : checkIns.length > 0 ? (
         <LineChart
