@@ -47,50 +47,29 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     );
   }, [getToken]);
 
-  const onSubmit = async (data: CheckInFormData) => {
-    setIsLoading(true);
-    setAiFeedback("");
-    try {
-      const token = await getToken({ template: "backend" });
-      const response = await fetch("http://127.0.0.1:8000/check_in/create", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to submit check-in");
-      }
-
-      const responseData = await response.json();
-
+  const mutation = useMutation({
+    mutationFn: checkInApi.create,
+    onSuccess: (responseData) => {
       if (responseData.ai_feedback) {
         setAiFeedback(responseData.ai_feedback);
       }
-
-      console.log("Success!", responseData);
-
-      setSuccessMessage("Check-in submitted succesfully!");
       setIsSubmitted(true);
-      setTimeout(() => setSuccessMessage(""), 3000);
       reset();
-    } catch (error) {
+    },
+    onError: (error) => {
       console.error("Error submitting check-in:", error);
-      setApiError("Failed to submit check-in. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    },
+  });
+
+  const onSubmit = async (data: CheckInFormData) => {
+    mutation.mutate(data);
   };
 
   const handleClose = () => {
-    setSuccessMessage("");
-    setApiError("");
-    setAiFeedback("");
-    onClose();
     reset();
+    setAiFeedback("");
     setIsSubmitted(false);
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -108,14 +87,9 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
 
         {!isSubmitted ? (
           <form onSubmit={handleSubmit(onSubmit)}>
-            {successMessage && (
-              <Typography color="success.main" sx={{ mb: 1 }}>
-                {successMessage}
-              </Typography>
-            )}
-            {apiError && (
+            {mutation.isError && (
               <Typography color="error" sx={{ mb: 1 }}>
-                {apiError}
+                Error submitting check-in. Please try again.
               </Typography>
             )}
             <TextField
@@ -169,8 +143,8 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
                 {errors.mood_scale.message}
               </Typography>
             )}
-            <button type="submit" disabled={isLoading}>
-              {isLoading ? "Submitting..." : "Submit"}
+            <button type="submit" disabled={mutation.isPending}>
+              {mutation.isPending ? "Submitting..." : "Submit"}
             </button>
           </form>
         ) : (
