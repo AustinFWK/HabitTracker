@@ -61,6 +61,11 @@ function Calendar() {
     setIsDialogOpen(true);
   };
 
+  const handleClose = () => {
+    setIsDialogOpen(false);
+    setSelectedDate(null);
+  };
+
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
