@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "@clerk/clerk-react";
 import { MOODS } from "../utils/moods";
 import CloseIcon from "@mui/icons-material/Close";
@@ -9,7 +9,10 @@ import "../styles/DailyCheckInForm.css";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
-import axiosInstance from "../../../api/app/axios/axiosInstance";
+import {
+  setAuthTokenGetter,
+  axiosInstance,
+} from "../../../api/app/axios/axiosInstance";
 
 interface CheckInModal {
   isOpen: boolean;
@@ -38,6 +41,14 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   } = useForm<CheckInFormData>();
 
   const { getToken } = useAuth();
+
+  useEffect(() => {
+    setAuthTokenGetter(() =>
+      getToken({
+        template: "backend",
+      })
+    );
+  }, [getToken]);
 
   const onSubmit = async (data: CheckInFormData) => {
     setIsLoading(true);

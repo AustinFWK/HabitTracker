@@ -1,4 +1,4 @@
-import axiosInstance from "../../axios/axiosInstance";
+import { axiosInstance } from "../../axios/axiosInstance";
 
 //Type definition for check-in data
 export interface CheckInFormData {
