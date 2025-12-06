@@ -57,49 +57,8 @@ function Calendar() {
 
   const handleDateChange = async (date: Dayjs | null) => {
     if (!date) return;
-
     setSelectedDate(date);
-    setIsLoading(true);
-    setError("");
     setIsDialogOpen(true);
-
-    const formattedDate = date.format("YYYY-MM-DD");
-
-    try {
-      const token = await getToken({ template: "backend" });
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/check_in/${formattedDate}`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (!response.ok) {
-        if (response.status === 404) {
-          setError("No check-in found for the selected date.");
-          setCheckInData(null);
-          return;
-        } else {
-          throw new Error("Failed to fetch check-in data");
-        }
-      }
-      const data = await response.json();
-      setCheckInData(data);
-    } catch (error) {
-      setError("Error fetching check-in data");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleClose = () => {
-    setIsDialogOpen(false);
-    setCheckInData(null);
-    setError("");
   };
 
   return (
