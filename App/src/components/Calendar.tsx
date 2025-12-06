@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dayjs } from "dayjs";
 import { useAuth } from "@clerk/clerk-react";
 import { getMoodLabel } from "../utils/moods";
@@ -15,6 +15,9 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
+import { checkInApi } from "../../../api/app/api/services/checkInService";
+import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
 interface CheckInData {
   entry: string;
@@ -28,11 +31,16 @@ interface CheckInData {
 function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [checkInData, setCheckInData] = useState<CheckInData | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
 
   const { getToken } = useAuth();
+
+  useEffect(() => {
+    setAuthTokenGetter(() =>
+      getToken({
+        template: "backend",
+      })
+    );
+  }, [getToken]);
 
   const handleDateChange = async (date: Dayjs | null) => {
     if (!date) return;
