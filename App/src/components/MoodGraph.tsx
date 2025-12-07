@@ -5,8 +5,15 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
+import { useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
+import CheckInDialog from "./CheckInDialog";
+import { set } from "react-hook-form";
 
 function MoodGraph() {
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { getToken } = useAuth();
 
   useEffect(() => {
@@ -28,6 +35,21 @@ function MoodGraph() {
 
   const dates = checkIns.map((checkIn) => checkIn.date);
   const moods = checkIns.map((checkIn) => checkIn.mood_scale);
+
+  const handlePointClick = (event: any, itemData: any) => {
+    if (itemData && itemData.dataIndex !== undefined) {
+      const clickedDate = dates[itemData.dataIndex];
+      setSelectedDate(dayjs(clickedDate));
+      setIsDialogOpen(true);
+    }
+  };
+
+  const handleClose = () => {
+    setIsDialogOpen(false);
+    setTimeout(() => {
+      setSelectedDate(null);
+    }, 200);
+  };
 
   return (
     <div>
@@ -63,6 +85,7 @@ function MoodGraph() {
           width={600}
           height={300}
           margin={{ left: 50, right: 50, top: 50, bottom: 50 }}
+          onMarkClick={handlePointClick}
         />
       ) : (
         <Box sx={{ textAlign: "center", padding: 3 }}>
@@ -71,6 +94,11 @@ function MoodGraph() {
           </Typography>
         </Box>
       )}
+      <CheckInDialog
+        isOpen={isDialogOpen}
+        onClose={handleClose}
+        selectedDate={selectedDate}
+      />
     </div>
   );
 }
