@@ -60,6 +60,16 @@ function Calendar() {
     const dateString = day.format("YYYY-MM-DD");
     const hasCheckIn = checkInDates.has(dateString);
 
+    if (outsideCurrentMonth) {
+      return (
+        <PickersDay
+          {...other}
+          outsideCurrentMonth={outsideCurrentMonth}
+          day={day}
+        />
+      );
+    }
+
     return (
       <Badge
         key={dateString}
