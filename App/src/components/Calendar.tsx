@@ -76,9 +76,10 @@ function Calendar() {
 
   const handleClose = () => {
     setIsDialogOpen(false);
-    setTimeout(() => {
-      setSelectedDate(null);
-    }, 200);
+  };
+
+  const handleExited = () => {
+    setSelectedDate(null);
   };
 
   return (
@@ -95,6 +96,7 @@ function Calendar() {
         isOpen={isDialogOpen}
         onClose={handleClose}
         selectedDate={selectedDate}
+        onExited={handleExited}
       />
     </div>
   );

@@ -16,10 +16,16 @@ import { checkInApi } from "../../../api/app/api/services/checkInService";
 interface CheckInDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  onExited?: () => void;
   selectedDate: Dayjs | null;
 }
 
-function CheckInDialog({ isOpen, onClose, selectedDate }: CheckInDialogProps) {
+function CheckInDialog({
+  isOpen,
+  onClose,
+  onExited,
+  selectedDate,
+}: CheckInDialogProps) {
   const formattedDate = selectedDate?.format("YYYY-MM-DD") || "";
 
   const {
@@ -34,7 +40,13 @@ function CheckInDialog({ isOpen, onClose, selectedDate }: CheckInDialogProps) {
   });
 
   return (
-    <Dialog open={isOpen} onClose={onClose}>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      slotProps={{
+        transition: { onExited },
+      }}
+    >
       <DialogTitle>
         {selectedDate && selectedDate.format("MMMM DD, YYYY")}
       </DialogTitle>

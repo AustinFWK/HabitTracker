@@ -8,7 +8,6 @@ import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 import { useState } from "react";
 import dayjs, { Dayjs } from "dayjs";
 import CheckInDialog from "./CheckInDialog";
-import { set } from "react-hook-form";
 
 function MoodGraph() {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
@@ -46,9 +45,6 @@ function MoodGraph() {
 
   const handleClose = () => {
     setIsDialogOpen(false);
-    setTimeout(() => {
-      setSelectedDate(null);
-    }, 200);
   };
 
   return (
