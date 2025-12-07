@@ -19,6 +19,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
+import CheckInDialog from "./CheckInDialog";
 
 function Calendar() {
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(null);
@@ -33,19 +34,6 @@ function Calendar() {
       })
     );
   }, [getToken]);
-
-  const formattedDate = selectedDate?.format("YYYY-MM-DD") || "";
-
-  const {
-    data: checkInData,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["checkIn", formattedDate],
-    queryFn: () => checkInApi.getByDate(formattedDate),
-    enabled: !!selectedDate && isDialogOpen,
-    retry: false,
-  });
 
   const { data: checkIns = [] } = useQuery({
     queryKey: ["checkIns"],
