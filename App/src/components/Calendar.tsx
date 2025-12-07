@@ -15,7 +15,6 @@ import {
   Box,
   CircularProgress,
   Typography,
-  Badge,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
@@ -71,18 +70,23 @@ function Calendar() {
     }
 
     return (
-      <Badge
-        key={dateString}
-        overlap="circular"
-        badgeContent={hasCheckIn ? "●" : undefined}
-        color="primary"
-      >
-        <PickersDay
-          {...other}
-          outsideCurrentMonth={outsideCurrentMonth}
-          day={day}
-        />
-      </Badge>
+      <Box sx={{ position: "relative", display: "inline-flex" }}>
+        <PickersDay {...other} day={day} />
+        {hasCheckIn && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 4,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 6,
+              height: 6,
+              borderRadius: "50%",
+              backgroundColor: "success.main", // Green dot
+            }}
+          />
+        )}
+      </Box>
     );
   };
 
