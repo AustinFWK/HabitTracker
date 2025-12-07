@@ -47,6 +47,10 @@ function MoodGraph() {
     setIsDialogOpen(false);
   };
 
+  const handleExited = () => {
+    setSelectedDate(null);
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -94,6 +98,7 @@ function MoodGraph() {
         isOpen={isDialogOpen}
         onClose={handleClose}
         selectedDate={selectedDate}
+        onExited={handleExited}
       />
     </div>
   );
