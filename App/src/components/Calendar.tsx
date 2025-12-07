@@ -5,6 +5,7 @@ import { getMoodLabel } from "../utils/moods";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
 import {
   Dialog,
   DialogTitle,
@@ -14,6 +15,7 @@ import {
   Box,
   CircularProgress,
   Typography,
+  Badge,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
@@ -53,6 +55,27 @@ function Calendar() {
 
   const checkInDates = new Set(checkIns.map((checkIn) => checkIn.date));
 
+  const serverDate = (props: any) => {
+    const { day, outsideCurrentMonth, ...other } = props;
+    const dateString = day.format("YYYY-MM-DD");
+    const hasCheckIn = checkInDates.has(dateString);
+
+    return (
+      <Badge
+        key={dateString}
+        overlap="circular"
+        badgeContent={hasCheckIn ? "●" : undefined}
+        color="primary"
+      >
+        <PickersDay
+          {...other}
+          outsideCurrentMonth={outsideCurrentMonth}
+          day={day}
+        />
+      </Badge>
+    );
+  };
+
   const handleDateChange = (date: Dayjs | null) => {
     if (!date) return;
     setSelectedDate(date);
@@ -67,7 +90,11 @@ function Calendar() {
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar value={selectedDate} onChange={handleDateChange} />
+        <DateCalendar
+          value={selectedDate}
+          onChange={handleDateChange}
+          slots={{ day: serverDate }}
+        />
       </LocalizationProvider>
 
       <Dialog open={isDialogOpen} onClose={handleClose}>
