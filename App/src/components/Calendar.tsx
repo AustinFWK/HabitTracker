@@ -98,7 +98,9 @@ function Calendar() {
 
   const handleClose = () => {
     setIsDialogOpen(false);
-    setSelectedDate(null);
+    setTimeout(() => {
+      setSelectedDate(null);
+    }, 200);
   };
 
   return (
