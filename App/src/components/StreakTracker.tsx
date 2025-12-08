@@ -46,25 +46,123 @@ function StreakTracker() {
   }
 
   return (
-    <Card sx={{ mb: 3 }}>
-      <CardContent>
+    <Card
+      sx={{
+        mb: 4,
+        background: "linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%)",
+        borderRadius: 6,
+        overflow: "hidden",
+        position: "relative",
+        boxShadow: "0 20px 60px rgba(255, 107, 107, 0.3)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        "&:hover": {
+          transform: "translateY(-8px) scale(1.02)",
+          boxShadow: "0 30px 80px rgba(255, 107, 107, 0.4)",
+        },
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%)",
+          pointerEvents: "none",
+        },
+      }}
+    >
+      <CardContent sx={{ p: 5, position: "relative", zIndex: 1 }}>
         <Box sx={{ textAlign: "center" }}>
-          <Typography
-            variant="h2"
-            sx={{ fontWeight: "bold", color: "primary.main" }}
+          {/* Decorative flame animation */}
+          <Box
+            sx={{
+              fontSize: "5rem",
+              mb: 2,
+              display: "inline-block",
+              animation: "flameFlicker 2s ease-in-out infinite",
+              "@keyframes flameFlicker": {
+                "0%, 100%": {
+                  transform: "scale(1) rotate(-5deg)",
+                  filter: "brightness(1)",
+                },
+                "50%": {
+                  transform: "scale(1.1) rotate(5deg)",
+                  filter: "brightness(1.2)",
+                },
+              },
+            }}
           >
-            🔥 {streakStats.currentStreak}
+            {streakStats.currentStreak > 0 ? "🔥" : "✨"}
+          </Box>
+
+          {/* Streak Number */}
+          <Typography
+            variant="h1"
+            sx={{
+              fontFamily: '"DM Serif Display", serif',
+              fontWeight: 700,
+              fontSize: "6rem",
+              color: "white",
+              lineHeight: 1,
+              textShadow: "0 8px 30px rgba(0,0,0,0.3)",
+              mb: 1,
+              background: "linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
+            {streakStats.currentStreak}
           </Typography>
-          <Typography variant="h6" sx={{ mb: 1 }}>
+
+          {/* Day Label */}
+          <Typography
+            variant="h4"
+            sx={{
+              fontFamily: '"Inter", sans-serif',
+              fontWeight: 600,
+              color: "rgba(255,255,255,0.95)",
+              textTransform: "uppercase",
+              letterSpacing: "0.2em",
+              mb: 2,
+              textShadow: "0 2px 10px rgba(0,0,0,0.2)",
+            }}
+          >
             Day Streak
           </Typography>
-          <Typography variant="body2" color="text.secondar">
-            {streakStats.currentStreak === 0
-              ? "Start your streak today!"
-              : streakStats.currentStreak === 1
-              ? "Great start! Keep logging to continue your streak!"
-              : `Keep it up, you're on a roll! Started on ${streakStats.streakStartDate}`}
-          </Typography>
+
+          {/* Motivational Message */}
+          <Box
+            sx={{
+              px: 4,
+              py: 2,
+              backgroundColor: "rgba(255,255,255,0.2)",
+              backdropFilter: "blur(10px)",
+              borderRadius: 3,
+              border: "1px solid rgba(255,255,255,0.3)",
+            }}
+          >
+            <Typography
+              variant="body1"
+              sx={{
+                fontFamily: '"Inter", sans-serif',
+                fontWeight: 500,
+                color: "white",
+                fontSize: "1.1rem",
+                textShadow: "0 2px 8px rgba(0,0,0,0.2)",
+              }}
+            >
+              {streakStats.currentStreak === 0
+                ? "🌱 Start your journey today!"
+                : streakStats.currentStreak === 1
+                ? "🎉 Amazing start! Keep it up!"
+                : streakStats.currentStreak < 7
+                ? "💪 Building momentum!"
+                : streakStats.currentStreak < 30
+                ? `🚀 Unstoppable! Started ${streakStats.streakStartDate}`
+                : `⭐️ Legendary streak! ${streakStats.streakStartDate}`}
+            </Typography>
+          </Box>
         </Box>
       </CardContent>
     </Card>
