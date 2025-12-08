@@ -2,10 +2,10 @@ import Calendar from "../components/Calendar";
 import DailyCheckInForm from "../components/DailyCheckInForm";
 import MoodGraph from "../components/MoodGraph";
 import StreakTracker from "../components/StreakTracker";
+import StatusBadge from "../components/StatusBadge";
 import { useState } from "react";
-import { Button, Typography, Box, Container, Fab, Zoom } from "@mui/material";
+import { Typography, Box, Container, Fab, Zoom } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -39,7 +39,8 @@ function Home() {
     <Box
       sx={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #feca57 100%)",
+        background:
+          "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #feca57 100%)",
         backgroundSize: "400% 400%",
         animation: "gradientShift 15s ease infinite",
         "@keyframes gradientShift": {
@@ -79,7 +80,12 @@ function Home() {
               letterSpacing: "-0.02em",
             }}
           >
-            Good {new Date().getHours() < 12 ? "Morning" : new Date().getHours() < 18 ? "Afternoon" : "Evening"}
+            Good{" "}
+            {new Date().getHours() < 12
+              ? "Morning"
+              : new Date().getHours() < 18
+              ? "Afternoon"
+              : "Evening"}
           </Typography>
           <Typography
             variant="h6"
@@ -114,37 +120,7 @@ function Home() {
         </Box>
 
         {/* Status Badge */}
-        {hasCheckedIn && (
-          <Zoom in={hasCheckedIn}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 1,
-                px: 3,
-                py: 1.5,
-                mb: 3,
-                backgroundColor: "rgba(255,255,255,0.95)",
-                backdropFilter: "blur(10px)",
-                borderRadius: "50px",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-                animation: "fadeInUp 0.6s ease-out 0.4s backwards",
-              }}
-            >
-              <CheckCircleIcon sx={{ color: "#10b981", fontSize: 24 }} />
-              <Typography
-                sx={{
-                  fontFamily: '"Inter", sans-serif',
-                  fontWeight: 600,
-                  color: "#10b981",
-                  fontSize: "1rem",
-                }}
-              >
-                Check-in complete!
-              </Typography>
-            </Box>
-          </Zoom>
-        )}
+        <StatusBadge hasCheckedIn={hasCheckedIn} />
 
         {/* Data Visualization Grid */}
         <Box
@@ -226,7 +202,8 @@ function Home() {
                 background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                 boxShadow: "0 12px 40px rgba(102, 126, 234, 0.4)",
                 "&:hover": {
-                  background: "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
+                  background:
+                    "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
                   transform: "scale(1.1) rotate(90deg)",
                   boxShadow: "0 16px 50px rgba(102, 126, 234, 0.5)",
                 },
