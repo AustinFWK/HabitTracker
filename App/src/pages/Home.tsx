@@ -1,6 +1,7 @@
 import Calendar from "../components/Calendar";
 import DailyCheckInForm from "../components/DailyCheckInForm";
 import MoodGraph from "../components/MoodGraph";
+import StreakTracker from "../components/StreakTracker";
 import { useState } from "react";
 import { Button, Typography } from "@mui/material";
 import { useAuth } from "@clerk/clerk-react";
@@ -57,6 +58,7 @@ function Home() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
+      <StreakTracker />
       <Calendar />
       <MoodGraph />
     </div>
