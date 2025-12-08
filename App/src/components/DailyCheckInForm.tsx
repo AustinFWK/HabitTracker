@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import "../styles/DailyCheckInForm.css";
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 
@@ -34,6 +34,8 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     setValue,
   } = useForm<CheckInFormData>();
 
+  const queryClient = useQueryClient();
+
   const { getToken } = useAuth();
 
   useEffect(() => {
@@ -52,7 +54,13 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
       }
       setIsSubmitted(true);
       reset();
+
+      queryClient.invalidateQueries({ queryKey: ["checkIns"] });
+      queryClient.invalidateQueries({
+        queryKey: ["checkIn", new Date().toLocaleDateString("en-CA")],
+      });
     },
+
     onError: (error) => {
       console.error("Error submitting check-in:", error);
     },
