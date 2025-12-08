@@ -44,7 +44,16 @@ function StreakTracker() {
 
   return (
     <Card sx={{ mb: 3 }}>
-      <CardContent></CardContent>
+      <CardContent>
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            variant="h2"
+            sx={{ fontWeight: "bold", color: "primary.main" }}
+          >
+            🔥 {streakStats.currentStreak}
+          </Typography>
+        </Box>
+      </CardContent>
     </Card>
   );
 }
