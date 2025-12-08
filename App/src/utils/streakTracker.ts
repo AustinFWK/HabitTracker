@@ -33,8 +33,47 @@ export function calculateStreakStats(checkIns: CheckInData[]): StreakStats {
   const hasActiveStreak = daysSinceLastCheckIn <= 1;
 
   let currentStreak = 0;
-  let startStreak: string | null = null;
+  let streakStartDate: string | null = null;
 
   if (hasActiveStreak) {
+    currentStreak = 1;
+    streakStartDate = lastCheckin.format("YYYY-MM-DD");
+    for (let i = sortedDates.length - 2; i >= 0; i--) {
+      const currentDate = sortedDates[i];
+      const nextDate = sortedDates[i + 1];
+
+      if (nextDate.diff(currentDate, "day") === 1) {
+        currentStreak += 1;
+        streakStartDate = currentDate.format("YYYY-MM-DD");
+      } else {
+        break;
+      }
+    }
   }
+
+  let longestStreak = 0;
+  let tempStreak = 1;
+
+  for (let i = 1; i < sortedDates.length; i++) {
+    const previousDate = sortedDates[i - 1];
+    const currentDate = sortedDates[i];
+
+    if (currentDate.diff(previousDate, "day") === 1) {
+      tempStreak++;
+      longestStreak = Math.max(longestStreak, tempStreak);
+    } else {
+      tempStreak = 1;
+    }
+  }
+  longestStreak = Math.max(longestStreak, 1);
+  longestStreak = Math.max(longestStreak, currentStreak);
+
+  return {
+    currentStreak,
+    longestStreak,
+    totalCheckIns: checkIns.length,
+    lastCheckInDate: lastCheckin.format("YYYY-MM-DD"),
+    streakStartDate,
+    isOngoingToday,
+  };
 }
