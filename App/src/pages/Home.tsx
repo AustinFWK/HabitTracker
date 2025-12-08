@@ -1,13 +1,11 @@
-import Calendar from "../components/Calendar";
 import DailyCheckInForm from "../components/DailyCheckInForm";
-import MoodGraph from "../components/MoodGraph";
 import StreakTracker from "../components/StreakTracker";
 import StatusBadge from "../components/StatusBadge";
 import PageHeader from "../components/PageHeader";
 import DataVisualizationGrid from "../components/DataVisualizationGrid";
+import CheckInFAB from "../components/CheckInFAB";
 import { useState } from "react";
-import { Typography, Box, Container, Fab, Zoom } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import { Box, Container } from "@mui/material";
 import { useAuth } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -83,33 +81,10 @@ function Home() {
         <DataVisualizationGrid />
 
         {/* Floating Action Button */}
-        {!hasCheckedIn && (
-          <Zoom in={!hasCheckedIn}>
-            <Fab
-              color="primary"
-              aria-label="log your day"
-              onClick={() => setIsModalOpen(true)}
-              sx={{
-                position: "fixed",
-                bottom: 32,
-                right: 32,
-                width: 72,
-                height: 72,
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                boxShadow: "0 12px 40px rgba(102, 126, 234, 0.4)",
-                "&:hover": {
-                  background:
-                    "linear-gradient(135deg, #764ba2 0%, #667eea 100%)",
-                  transform: "scale(1.1) rotate(90deg)",
-                  boxShadow: "0 16px 50px rgba(102, 126, 234, 0.5)",
-                },
-                transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-              }}
-            >
-              <AddIcon sx={{ fontSize: 32 }} />
-            </Fab>
-          </Zoom>
-        )}
+        <CheckInFAB
+          hasCheckedIn={hasCheckedIn}
+          onOpen={() => setIsModalOpen(true)}
+        />
 
         <DailyCheckInForm
           isOpen={isModalOpen}
