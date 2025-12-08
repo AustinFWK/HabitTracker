@@ -52,6 +52,16 @@ function StreakTracker() {
           >
             🔥 {streakStats.currentStreak}
           </Typography>
+          <Typography variant="h6" sx={{ mb: 1 }}>
+            Day Streak
+          </Typography>
+          <Typography variant="body2" color="text.secondar">
+            {streakStats.currentStreak === 0
+              ? "Start your streak today!"
+              : streakStats.currentStreak === 1
+              ? "Great start! Keep logging to continue your streak!"
+              : `Keep it up, you're on a roll! Started on ${streakStats.streakStartDate}`}
+          </Typography>
         </Box>
       </CardContent>
     </Card>
