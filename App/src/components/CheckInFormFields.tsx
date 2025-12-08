@@ -37,7 +37,6 @@ function CheckInFormFields({
             setValue("entry", e.target.value);
           }
         }}
-        label="How was your day?"
         placeholder="Share your thoughts, feelings, and experiences..."
         multiline
         rows={5}
