@@ -28,4 +28,13 @@ export function calculateStreakStats(checkIns: CheckInData[]): StreakStats {
   const today = dayjs().startOf("day");
   const lastCheckin = sortedDates[sortedDates.length - 1];
   const isOngoingToday = lastCheckin.isSame(today, "day");
+
+  const daysSinceLastCheckIn = today.diff(lastCheckin, "day");
+  const hasActiveStreak = daysSinceLastCheckIn <= 1;
+
+  let currentStreak = 0;
+  let startStreak: string | null = null;
+
+  if (hasActiveStreak) {
+  }
 }
