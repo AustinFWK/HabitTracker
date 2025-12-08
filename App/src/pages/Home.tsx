@@ -39,15 +39,9 @@ function Home() {
     <Box
       sx={{
         minHeight: "100vh",
+        width: "100%",
         background:
-          "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #feca57 100%)",
-        backgroundSize: "400% 400%",
-        animation: "gradientShift 15s ease infinite",
-        "@keyframes gradientShift": {
-          "0%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
-          "100%": { backgroundPosition: "0% 50%" },
-        },
+          "linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 25%, #c44569 50%, #f39c12 75%, #f8b739 100%)",
         py: 4,
       }}
     >

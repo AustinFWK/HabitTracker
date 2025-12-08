@@ -4,7 +4,7 @@ import {
   SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Typography } from "@mui/material";
 import Home from "./pages/Home";
 import History from "./pages/History";
@@ -13,15 +13,28 @@ export default function App() {
   return (
     <BrowserRouter>
       <>
-        <header>
-          <SignedIn>
+        {/* User Button - Fixed Top Right */}
+        <SignedIn>
+          <div
+            style={{
+              position: "fixed",
+              top: 20,
+              right: 20,
+              zIndex: 1000,
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              backdropFilter: "blur(10px)",
+              borderRadius: "50%",
+              padding: "6px",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <UserButton />
-            <nav>
-              <Link to="/">Home</Link>
-              <Link to="/history">History</Link>
-            </nav>
-          </SignedIn>
-        </header>
+          </div>
+        </SignedIn>
+
         <SignedOut>
           <div
             style={{
