@@ -24,4 +24,8 @@ export function calculateStreakStats(checkIns: CheckInData[]): StreakStats {
   const sortedDates = checkIns
     .map((checkIns) => dayjs(checkIns.date))
     .sort((a, b) => a.valueOf() - b.valueOf());
+
+  const today = dayjs().startOf("day");
+  const lastCheckin = sortedDates[sortedDates.length - 1];
+  const isOngoingToday = lastCheckin.isSame(today, "day");
 }
