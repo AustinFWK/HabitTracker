@@ -41,6 +41,9 @@ function StreakTracker() {
       </Box>
     );
   }
+  if (isError) {
+    return null;
+  }
 
   return (
     <Card sx={{ mb: 3 }}>
