@@ -35,7 +35,7 @@ function MoodGraph() {
   const dates = checkIns.map((checkIn) => checkIn.date);
   const moods = checkIns.map((checkIn) => checkIn.mood_scale);
 
-  const handlePointClick = (event: any, itemData: any) => {
+  const handlePointClick = (_event: any, itemData: any) => {
     if (itemData && itemData.dataIndex !== undefined) {
       const clickedDate = dates[itemData.dataIndex];
       setSelectedDate(dayjs(clickedDate));
