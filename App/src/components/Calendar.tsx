@@ -89,6 +89,32 @@ function Calendar() {
           value={selectedDate}
           onChange={handleDateChange}
           slots={{ day: serverDate }}
+          sx={{
+            color: "#1a202c",
+            "& .MuiPickersCalendarHeader-label": {
+              color: "#1a202c",
+              fontWeight: 600,
+            },
+            "& .MuiDayCalendar-weekDayLabel": {
+              color: "#4a5568",
+              fontWeight: 500,
+            },
+            "& .MuiPickersDay-root": {
+              color: "#1a202c",
+              "&:hover": {
+                backgroundColor: "rgba(102, 126, 234, 0.1)",
+              },
+            },
+            "& .MuiPickersDay-today": {
+              border: "2px solid #667eea",
+              fontWeight: 700,
+            },
+            "& .Mui-selected": {
+              backgroundColor: "#667eea !important",
+              color: "white !important",
+              fontWeight: 700,
+            },
+          }}
         />
       </LocalizationProvider>
 
