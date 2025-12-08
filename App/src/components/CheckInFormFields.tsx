@@ -1,5 +1,10 @@
 import { TextField, Typography, Box, Chip } from "@mui/material";
-import { UseFormRegister, UseFormSetValue, UseFormWatch, FieldErrors } from "react-hook-form";
+import type {
+  UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
+  FieldErrors,
+} from "react-hook-form";
 import { MOODS } from "../utils/moods";
 
 interface CheckInFormData {
@@ -14,14 +19,18 @@ interface CheckInFormFieldsProps {
   errors: FieldErrors<CheckInFormData>;
 }
 
-function CheckInFormFields({ register, setValue, watch, errors }: CheckInFormFieldsProps) {
+function CheckInFormFields({
+  register,
+  setValue,
+  watch,
+  errors,
+}: CheckInFormFieldsProps) {
   return (
     <>
       <TextField
         {...register("entry", {
           required: "Entry cannot be empty",
-          validate: (value) =>
-            value.trim() !== "" || "Entry cannot be empty",
+          validate: (value) => value.trim() !== "" || "Entry cannot be empty",
         })}
         onChange={(e) => {
           if (e.target.value.length <= 1000) {
@@ -95,10 +104,7 @@ function CheckInFormFields({ register, setValue, watch, errors }: CheckInFormFie
       />
 
       {errors.mood_scale && (
-        <Typography
-          color="error"
-          sx={{ mt: 1, fontSize: "0.875rem" }}
-        >
+        <Typography color="error" sx={{ mt: 1, fontSize: "0.875rem" }}>
           {errors.mood_scale.message}
         </Typography>
       )}
