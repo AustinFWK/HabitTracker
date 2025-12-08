@@ -3,6 +3,7 @@ import DailyCheckInForm from "../components/DailyCheckInForm";
 import MoodGraph from "../components/MoodGraph";
 import StreakTracker from "../components/StreakTracker";
 import StatusBadge from "../components/StatusBadge";
+import PageHeader from "../components/PageHeader";
 import { useState } from "react";
 import { Typography, Box, Container, Fab, Zoom } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -53,52 +54,7 @@ function Home() {
     >
       <Container maxWidth="lg">
         {/* Header Section */}
-        <Box
-          sx={{
-            mb: 4,
-            animation: "fadeInDown 0.6s ease-out",
-            "@keyframes fadeInDown": {
-              from: {
-                opacity: 0,
-                transform: "translateY(-20px)",
-              },
-              to: {
-                opacity: 1,
-                transform: "translateY(0)",
-              },
-            },
-          }}
-        >
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: '"DM Serif Display", serif',
-              fontWeight: 700,
-              color: "white",
-              mb: 1,
-              textShadow: "0 4px 20px rgba(0,0,0,0.3)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            Good{" "}
-            {new Date().getHours() < 12
-              ? "Morning"
-              : new Date().getHours() < 18
-              ? "Afternoon"
-              : "Evening"}
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontFamily: '"Inter", sans-serif',
-              fontWeight: 400,
-              color: "rgba(255,255,255,0.9)",
-              textShadow: "0 2px 10px rgba(0,0,0,0.2)",
-            }}
-          >
-            {hasCheckedIn ? "You're on track today" : "Ready to log your day?"}
-          </Typography>
-        </Box>
+        <PageHeader hasCheckedIn={hasCheckedIn} />
 
         {/* Streak Tracker - Hero Element */}
         <Box
