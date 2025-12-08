@@ -32,6 +32,11 @@ function Calendar() {
 
   const checkInDates = new Set(checkIns.map((checkIn) => checkIn.date));
 
+  const handleDayClick = (date: Dayjs) => {
+    setSelectedDate(date);
+    setIsDialogOpen(true);
+  };
+
   const serverDate = (props: any) => {
     const { day, outsideCurrentMonth, ...other } = props;
     const dateString = day.format("YYYY-MM-DD");
@@ -49,7 +54,11 @@ function Calendar() {
 
     return (
       <Box sx={{ position: "relative", display: "inline-flex" }}>
-        <PickersDay {...other} day={day} />
+        <PickersDay
+          {...other}
+          day={day}
+          onClick={() => handleDayClick(day)}
+        />
         {hasCheckIn && (
           <Box
             sx={{
@@ -69,9 +78,8 @@ function Calendar() {
   };
 
   const handleDateChange = (date: Dayjs | null) => {
-    if (!date) return;
+    // Only update selectedDate, don't open dialog
     setSelectedDate(date);
-    setIsDialogOpen(true);
   };
 
   const handleClose = () => {
