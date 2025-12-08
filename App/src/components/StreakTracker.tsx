@@ -169,6 +169,36 @@ function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
                 : `⭐️ Legendary streak! ${streakStats.streakStartDate}`}
             </Typography>
           </Box>
+
+          {/* Check-in Button - Only show if not checked in today */}
+          {!hasCheckedIn && (
+            <Button
+              variant="contained"
+              size="large"
+              onClick={onOpenCheckIn}
+              sx={{
+                mt: 3,
+                backgroundColor: "white",
+                color: "#FF6B6B",
+                fontSize: "1.1rem",
+                fontWeight: 600,
+                fontFamily: '"Inter", sans-serif',
+                py: 1.5,
+                px: 5,
+                borderRadius: 3,
+                textTransform: "none",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+                "&:hover": {
+                  backgroundColor: "rgba(255,255,255,0.95)",
+                  transform: "scale(1.03)",
+                  boxShadow: "0 6px 16px rgba(0,0,0,0.3)",
+                },
+                transition: "all 0.2s ease",
+              }}
+            >
+              Log Your Day
+            </Button>
+          )}
         </Box>
       </CardContent>
     </Card>

@@ -3,7 +3,6 @@ import StreakTracker from "../components/StreakTracker";
 import StatusBadge from "../components/StatusBadge";
 import PageHeader from "../components/PageHeader";
 import DataVisualizationGrid from "../components/DataVisualizationGrid";
-import CheckInFAB from "../components/CheckInFAB";
 import { useState } from "react";
 import { Box, Container } from "@mui/material";
 import { useAuth } from "@clerk/clerk-react";
@@ -65,7 +64,10 @@ function Home() {
             },
           }}
         >
-          <StreakTracker />
+          <StreakTracker
+            hasCheckedIn={hasCheckedIn}
+            onOpenCheckIn={() => setIsModalOpen(true)}
+          />
         </Box>
 
         {/* Status Badge */}
@@ -73,12 +75,6 @@ function Home() {
 
         {/* Data Visualization Grid */}
         <DataVisualizationGrid />
-
-        {/* Floating Action Button */}
-        <CheckInFAB
-          hasCheckedIn={hasCheckedIn}
-          onOpen={() => setIsModalOpen(true)}
-        />
 
         <DailyCheckInForm
           isOpen={isModalOpen}
