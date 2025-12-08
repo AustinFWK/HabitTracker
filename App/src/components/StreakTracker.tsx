@@ -4,6 +4,7 @@ import {
   Typography,
   Box,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth } from "@clerk/clerk-react";
@@ -12,7 +13,12 @@ import { checkInApi } from "../../../api/app/api/services/checkInService";
 import { setAuthTokenGetter } from "../../../api/app/axios/axiosInstance";
 import { calculateStreakStats } from "../utils/streakTracker";
 
-function StreakTracker() {
+interface StreakTrackerProps {
+  hasCheckedIn: boolean;
+  onOpenCheckIn: () => void;
+}
+
+function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
   const { getToken } = useAuth();
 
   useEffect(() => {
