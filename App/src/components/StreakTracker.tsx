@@ -21,6 +21,7 @@ interface StreakTrackerProps {
 function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
   const { getToken } = useAuth();
 
+  //automatically fetches most current JWT for API calls
   useEffect(() => {
     setAuthTokenGetter(() =>
       getToken({
@@ -55,7 +56,8 @@ function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
     <Card
       sx={{
         mb: 4,
-        background: "linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%)",
+        background:
+          "linear-gradient(135deg, #FF6B6B 0%, #FFE66D 50%, #4ECDC4 100%)",
         borderRadius: 6,
         overflow: "hidden",
         position: "relative",
@@ -72,7 +74,8 @@ function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
           left: 0,
           right: 0,
           bottom: 0,
-          background: "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%)",
+          background:
+            "radial-gradient(circle at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 50%)",
           pointerEvents: "none",
         },
       }}
@@ -112,7 +115,8 @@ function StreakTracker({ hasCheckedIn, onOpenCheckIn }: StreakTrackerProps) {
               lineHeight: 1,
               textShadow: "0 8px 30px rgba(0,0,0,0.3)",
               mb: 1,
-              background: "linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
+              background:
+                "linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.8) 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",

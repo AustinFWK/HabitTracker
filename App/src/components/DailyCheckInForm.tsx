@@ -45,6 +45,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
 
   const { getToken } = useAuth();
 
+  //automatically fetches most current JWT for API calls
   useEffect(() => {
     setAuthTokenGetter(() =>
       getToken({
@@ -180,7 +181,8 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
                 borderRadius: 2,
                 boxShadow: "0 4px 12px rgba(255, 107, 107, 0.3)",
                 "&:hover": {
-                  background: "linear-gradient(135deg, #f39c12 0%, #ff6b6b 100%)",
+                  background:
+                    "linear-gradient(135deg, #f39c12 0%, #ff6b6b 100%)",
                   boxShadow: "0 6px 16px rgba(255, 107, 107, 0.4)",
                 },
                 "&:disabled": {

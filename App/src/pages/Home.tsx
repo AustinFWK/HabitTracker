@@ -16,6 +16,7 @@ function Home() {
 
   const { getToken } = useAuth();
 
+  //automatically fetches most current JWT for API calls
   useEffect(() => {
     setAuthTokenGetter(() =>
       getToken({

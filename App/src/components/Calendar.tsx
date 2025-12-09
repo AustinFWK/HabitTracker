@@ -17,6 +17,7 @@ function Calendar() {
 
   const { getToken } = useAuth();
 
+  //automatically fetches most current JWT for API calls
   useEffect(() => {
     setAuthTokenGetter(() =>
       getToken({
@@ -54,11 +55,7 @@ function Calendar() {
 
     return (
       <Box sx={{ position: "relative", display: "inline-flex" }}>
-        <PickersDay
-          {...other}
-          day={day}
-          onClick={() => handleDayClick(day)}
-        />
+        <PickersDay {...other} day={day} onClick={() => handleDayClick(day)} />
         {hasCheckIn && (
           <Box
             sx={{
