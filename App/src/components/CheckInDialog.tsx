@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
+import AIFeedbackDisplay from "./AIFeedbackDisplay";
 
 interface CheckInDialogProps {
   isOpen: boolean;
@@ -81,24 +82,8 @@ function CheckInDialog({
             </Typography>
 
             {checkInData.ai_feedback && (
-              <Box
-                sx={{
-                  mt: 3,
-                  p: 2,
-                  borderLeft: "4px solid #3b82f6",
-                  borderRadius: 1,
-                  backgroundColor: "#f0f9ff",
-                }}
-              >
-                <Typography variant="h6" sx={{ color: "#1e40af", mb: 1 }}>
-                  AI Insights
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ whiteSpace: "pre-wrap", lineHeight: 1.6 }}
-                >
-                  {checkInData.ai_feedback}
-                </Typography>
+              <Box sx={{ mt: 3 }}>
+                <AIFeedbackDisplay aiFeedback={checkInData.ai_feedback} />
               </Box>
             )}
           </Box>
