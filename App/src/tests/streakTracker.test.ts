@@ -48,4 +48,21 @@ describe("calculateStreakStats", () => {
     expect(result.streakStartDate).toBe(today);
     expect(result.isOngoingToday).toBe(true);
   });
+
+  it("should have no active streak if last check-in was 3 days ago", () => {
+    // Arrange check-ins with the last one being 3 days ago
+    const threeDaysAgo = dayjs().subtract(3, "day").format("YYYY-MM-DD");
+
+    const checkIns = [createCheckIn(threeDaysAgo)];
+    // Act
+    const result = calculateStreakStats(checkIns);
+
+    // Assert
+    expect(result.currentStreak).toBe(0);
+    expect(result.longestStreak).toBe(1);
+    expect(result.totalCheckIns).toBe(1);
+    expect(result.lastCheckInDate).toBe(threeDaysAgo);
+    expect(result.streakStartDate).toBe(null);
+    expect(result.isOngoingToday).toBe(false);
+  });
 });
