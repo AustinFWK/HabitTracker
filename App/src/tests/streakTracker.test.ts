@@ -49,11 +49,13 @@ describe("calculateStreakStats", () => {
     expect(result.isOngoingToday).toBe(true);
   });
 
-  it("should have no active streak if last check-in was 3 days ago", () => {
+  it("should have no active streak if last check-in was 2 days ago", () => {
     // Arrange check-ins with the last one being 3 days ago
-    const threeDaysAgo = dayjs().subtract(3, "day").format("YYYY-MM-DD");
+    const twoDaysAgo = dayjs().subtract(2, "day").format("YYYY-MM-DD");
 
-    const checkIns = [createCheckIn(threeDaysAgo)];
+    // Arrange a single check-in for three days ago
+    const checkIns = [createCheckIn(twoDaysAgo)];
+
     // Act
     const result = calculateStreakStats(checkIns);
 
@@ -61,8 +63,10 @@ describe("calculateStreakStats", () => {
     expect(result.currentStreak).toBe(0);
     expect(result.longestStreak).toBe(1);
     expect(result.totalCheckIns).toBe(1);
-    expect(result.lastCheckInDate).toBe(threeDaysAgo);
+    expect(result.lastCheckInDate).toBe(twoDaysAgo);
     expect(result.streakStartDate).toBe(null);
     expect(result.isOngoingToday).toBe(false);
   });
+
+  it("should calculate a 2-day streak ending today", () => {});
 });
