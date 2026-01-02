@@ -27,6 +27,7 @@ function CheckInFormFields({
 }: CheckInFormFieldsProps) {
   return (
     <>
+      {/* ensures entry can't be empty or just whitespace */}
       <TextField
         {...register("entry", {
           required: "Entry cannot be empty",
@@ -53,7 +54,6 @@ function CheckInFormFields({
           },
         }}
       />
-
       <Typography
         variant="body1"
         sx={{
@@ -65,7 +65,6 @@ function CheckInFormFields({
       >
         How are you feeling?
       </Typography>
-
       <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
         {MOODS.map((mood) => (
           <Chip
@@ -94,14 +93,13 @@ function CheckInFormFields({
           />
         ))}
       </Box>
-
+      {/* Hidden input to register mood_scale with react-hook-form */}
       <input
         type="hidden"
         {...register("mood_scale", {
           required: "Mood scale is required",
         })}
       />
-
       {errors.mood_scale && (
         <Typography color="error" sx={{ mt: 1, fontSize: "0.875rem" }}>
           {errors.mood_scale.message}
