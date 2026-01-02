@@ -87,4 +87,33 @@ describe("calculateStreakStats", () => {
     expect(result.streakStartDate).toBe(yesterday);
     expect(result.isOngoingToday).toBe(true);
   });
+
+  it("should track longest streak correctly when current streak is shorter", () => {
+    // Create entries for 3 day streak
+    const sevenDaysAgo = dayjs().subtract(7, "day").format("YYYY-MM-DD");
+    const sixDaysAgo = dayjs().subtract(6, "day").format("YYYY-MM-DD");
+    const fiveDaysAgo = dayjs().subtract(5, "day").format("YYYY-MM-DD");
+
+    // create entry for today to begin new streak
+    const today = dayjs().startOf("day").format("YYYY-MM-DD");
+
+    // Arrange check-ins for a past 3-day streak and a new streak starting today
+    const checkIns = [
+      createCheckIn(sevenDaysAgo),
+      createCheckIn(sixDaysAgo),
+      createCheckIn(fiveDaysAgo),
+      createCheckIn(today),
+    ];
+
+    // Act
+    const result = calculateStreakStats(checkIns);
+
+    // Assert
+    expect(result.currentStreak).toBe(1);
+    expect(result.longestStreak).toBe(3);
+    expect(result.totalCheckIns).toBe(4);
+    expect(result.lastCheckInDate).toBe(today);
+    expect(result.streakStartDate).toBe(today);
+    expect(result.isOngoingToday).toBe(true);
+  });
 });
