@@ -116,4 +116,24 @@ describe("calculateStreakStats", () => {
     expect(result.streakStartDate).toBe(today);
     expect(result.isOngoingToday).toBe(true);
   });
+
+  it("should continue streak if last check-in was yesterday", () => {
+    // create dates for yesterday and the day before
+    const yesterday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
+    const twoDaysAgo = dayjs().subtract(2, "day").format("YYYY-MM-DD");
+
+    // Arrange check-ins for the day before yesterday and yesterday
+    const checkIns = [createCheckIn(twoDaysAgo), createCheckIn(yesterday)];
+
+    // Act
+    const result = calculateStreakStats(checkIns);
+
+    // Assert
+    expect(result.currentStreak).toBe(2);
+    expect(result.longestStreak).toBe(2);
+    expect(result.totalCheckIns).toBe(2);
+    expect(result.lastCheckInDate).toBe(yesterday);
+    expect(result.streakStartDate).toBe(twoDaysAgo);
+    expect(result.isOngoingToday).toBe(false);
+  });
 });
