@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
 import type { CheckInData } from "../../../api/app/api/services/checkInService";
 
-/* For reference, dayjs handles all edge cases of dates, including leap years, month lengths, and year transitions.
-   The reasoning is because dayjs works with absolute time stamps starting from Jan 1, 1970. So all dates are converted into milliseconds since epoch,
-   resulting in all edge cases always correctly calculated.
+/* 
+For reference, dayjs handles all edge cases of dates, including leap years, month lengths, and year transitions.
+The reasoning is because dayjs works with absolute time stamps starting from Jan 1, 1970. So all dates are converted into milliseconds since epoch,
+resulting in all edge cases always correctly calculated.
 */
 export interface StreakStats {
   currentStreak: number;
