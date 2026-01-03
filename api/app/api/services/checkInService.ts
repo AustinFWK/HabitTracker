@@ -13,12 +13,12 @@ export interface CheckInData {
   date: string;
   mood_id: number;
   entry_id: number;
-  ai_feedback?: string;
+  ai_feedback: string;
 }
 
 //Type definiton for check-in data that gets return by API
 export interface CreateCheckInResponse {
-  ai_feedback?: string;
+  ai_feedback: string;
   date: string;
   mood_id: number;
   entry_id: number;
