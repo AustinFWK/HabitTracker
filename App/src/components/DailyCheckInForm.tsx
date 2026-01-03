@@ -30,7 +30,6 @@ interface CheckInFormData {
 
 function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   const [aiFeedback, setAiFeedback] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
     register,
@@ -58,7 +57,6 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
     mutationFn: checkInApi.create,
     onSuccess: (responseData) => {
       setAiFeedback(responseData.ai_feedback);
-      setIsSubmitted(true);
       reset();
 
       queryClient.invalidateQueries({ queryKey: ["checkIns"] });
@@ -79,7 +77,6 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   const handleClose = () => {
     reset();
     setAiFeedback("");
-    setIsSubmitted(false);
     onClose();
   };
 
@@ -117,7 +114,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
             backgroundClip: "text",
           }}
         >
-          {isSubmitted ? "✨ Great Job!" : "Daily Check-In"}
+          {aiFeedback ? "✨ Great Job!" : "Daily Check-In"}
         </Typography>
         <IconButton onClick={handleClose} size="small">
           <CloseIcon />
@@ -125,7 +122,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
       </DialogTitle>
 
       <DialogContent sx={{ pt: 2 }}>
-        {!isSubmitted ? (
+        {!aiFeedback ? (
           <form onSubmit={handleSubmit(onSubmit)} id="check-in-form">
             {mutation.isError && (
               <Typography
@@ -149,7 +146,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
       </DialogContent>
 
       <DialogActions sx={{ px: 3, pb: 3 }}>
-        {!isSubmitted ? (
+        {!aiFeedback ? (
           <>
             <Button
               onClick={handleClose}
