@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+import Markdown from "markdown-to-jsx/react";
 
 interface AIFeedbackDisplayProps {
   aiFeedback: string;
@@ -38,7 +39,7 @@ function AIFeedbackDisplay({ aiFeedback }: AIFeedbackDisplayProps) {
           fontFamily: '"Inter", sans-serif',
         }}
       >
-        {aiFeedback}
+        <Markdown>{aiFeedback}</Markdown>
       </Typography>
     </Box>
   );
