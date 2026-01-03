@@ -41,14 +41,20 @@ class AIService:
 
                 Keep your response under 150 words."""
             
-             # Call Claude API
-            message = self.client.messages.create(
-                model="claude-sonnet-4-5-20250929",
-                max_tokens=300,
-                messages=[
-                    {"role": "user", "content": prompt}
-                ]
-            )
+            try:
+                # Call Claude API
+                message = self.client.messages.create(
+                    model="claude-sonnet-4-5-20250929",
+                    max_tokens=300,
+                    messages=[
+                        {"role": "user", "content": prompt}
+                    ]
+                )
 
-            # Extract the text response
-            return message.content[0].text
+                # Extract the text response
+                return message.content[0].text
+            
+            except Exception as e:
+                 #log the error and re raise with context
+                 print(f"AI feedback generation error {type(e).__name__}: {str(e)}")
+                 raise Exception(f"failed to generate AI feedback: {str(e)}")
