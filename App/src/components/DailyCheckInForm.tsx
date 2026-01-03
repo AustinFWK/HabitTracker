@@ -57,9 +57,7 @@ function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
   const mutation = useMutation({
     mutationFn: checkInApi.create,
     onSuccess: (responseData) => {
-      if (responseData.ai_feedback) {
-        setAiFeedback(responseData.ai_feedback);
-      }
+      setAiFeedback(responseData.ai_feedback);
       setIsSubmitted(true);
       reset();
 
