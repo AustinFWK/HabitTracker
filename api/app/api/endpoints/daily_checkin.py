@@ -27,6 +27,7 @@ def create_check_in(check_in: DailyCheckInCreate, session=Depends(get_session), 
         ai_feedback = ai_service.generate_feedback(check_in.entry, check_in.mood_scale)
     except Exception as e:
         # AI generation failed
+        print(f"Failed to create check-in due to AI error: {type(e).__name__}: {str(e)}")
         raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="AI service is currently unavailable. Please try again in a moment.")
 
     db_entry = DailyEntry(entry=check_in.entry, clerk_user_id=clerk_user_id, date=date.today(), ai_feedback=ai_feedback)
