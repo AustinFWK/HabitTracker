@@ -22,8 +22,12 @@ def create_check_in(check_in: DailyCheckInCreate, session=Depends(get_session), 
     if existing_entry:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Check-in for today already exists.")
 
-    ai_service = AIService()
-    ai_feedback = ai_service.generate_feedback(check_in.entry, check_in.mood_scale)
+    try:
+        ai_service = AIService()
+        ai_feedback = ai_service.generate_feedback(check_in.entry, check_in.mood_scale)
+    except Exception as e:
+        # AI generation failed
+        raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="AI service is currently unavailable. Please try again in a moment.")
 
     db_entry = DailyEntry(entry=check_in.entry, clerk_user_id=clerk_user_id, date=date.today(), ai_feedback=ai_feedback)
     db_mood_entry = MoodEntry(mood_scale=check_in.mood_scale, clerk_user_id=clerk_user_id, date=date.today())
