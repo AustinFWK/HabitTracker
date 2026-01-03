@@ -29,6 +29,7 @@ interface CheckInFormData {
 }
 
 function DailyCheckInForm({ isOpen, onClose }: CheckInModal) {
+  // We use aiFeedback state to determine if the form has been submitted successfully since we get AI feedback only after submission
   const [aiFeedback, setAiFeedback] = useState("");
 
   const {
