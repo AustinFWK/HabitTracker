@@ -41,6 +41,15 @@ function CheckInDialog({
   const formattedDate = selectedDate?.format("YYYY-MM-DD") || "";
 
   const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+    watch,
+  } = useForm<CheckInFormData>();
+
+  const {
     data: checkInData,
     isLoading,
     isError,
