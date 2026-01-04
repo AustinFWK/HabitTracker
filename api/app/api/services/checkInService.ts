@@ -46,7 +46,7 @@ export const checkInApi = {
   //Function to update an existing check-in
   update: async (date: string, data: CheckInFormData): Promise<CheckInData> => {
     const response = await axiosInstance.put<CheckInData>(
-      `/check_in/${date}`,
+      `/check_in/update/${date}`,
       data
     );
     return response.data;

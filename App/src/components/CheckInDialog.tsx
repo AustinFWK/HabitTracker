@@ -119,36 +119,76 @@ function CheckInDialog({
             No check-in found for the selected date.
           </Typography>
         ) : checkInData ? (
-          <Box>
-            <Typography variant="h6" gutterBottom>
-              Mood: {getMoodLabel(checkInData.mood_scale)}
-            </Typography>
+          isEditMode ? (
+            <form onSubmit={handleSubmit(onSubmit)} id="edit-check-in-form">
+              {mutation.isError && (
+                <Typography
+                  color="error"
+                  sx={{ mb: 2, p: 1.5, bgcolor: "#fee", borderRadius: 2 }}
+                >
+                  Error updating check-in. Please try again.
+                </Typography>
+              )}
+              <CheckInFormFields
+                register={register}
+                setValue={setValue}
+                watch={watch}
+                errors={errors}
+              />
+            </form>
+          ) : (
+            <Box>
+              <Typography variant="h6" gutterBottom>
+                Mood: {getMoodLabel(checkInData.mood_scale)}
+              </Typography>
 
-            <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
-              <strong>Entry:</strong>
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                whiteSpace: "pre-wrap",
-                backgroundColor: "#f5f5f5",
-                padding: 2,
-                borderRadius: 1,
-              }}
-            >
-              {checkInData.entry}
-            </Typography>
+              <Typography variant="body1" sx={{ mt: 2, mb: 1 }}>
+                <strong>Entry:</strong>
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  whiteSpace: "pre-wrap",
+                  backgroundColor: "#f5f5f5",
+                  padding: 2,
+                  borderRadius: 1,
+                }}
+              >
+                {checkInData.entry}
+              </Typography>
 
-            {checkInData.ai_feedback && (
-              <Box sx={{ mt: 3 }}>
-                <AIFeedbackDisplay aiFeedback={checkInData.ai_feedback} />
-              </Box>
-            )}
-          </Box>
+              {checkInData.ai_feedback && (
+                <Box sx={{ mt: 3 }}>
+                  <AIFeedbackDisplay aiFeedback={checkInData.ai_feedback} />
+                </Box>
+              )}
+            </Box>
+          )
         ) : null}
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Close</Button>
+        {isEditMode ? (
+          <>
+            <Button onClick={handleCancelEdit} disabled={mutation.isPending}>
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              form="edit-check-in-form"
+              variant="contained"
+              disabled={mutation.isPending}
+            >
+              {mutation.isPending ? "Saving..." : "Save"}
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button onClick={() => setIsEditMode(true)} variant="contained">
+              Edit
+            </Button>
+            <Button onClick={onClose}>Close</Button>
+          </>
+        )}
       </DialogActions>
     </Dialog>
   );

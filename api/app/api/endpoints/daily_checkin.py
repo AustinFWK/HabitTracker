@@ -89,11 +89,26 @@ def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, ses
         raise HTTPException(status_code=404, detail="No check-in found for this date")
 
     entry, mood = result
+
+    # Track if we need to regenerate AI feedback
+    needs_ai_update = False
+
     if check_in_update.entry is not None:
         entry.entry = check_in_update.entry
+        needs_ai_update = True
     if check_in_update.mood_scale is not None:
         mood.mood_scale = check_in_update.mood_scale
-    
+        needs_ai_update = True
+
+    # Regenerate AI feedback if entry or mood changed
+    if needs_ai_update:
+        try:
+            ai_service = AIService()
+            entry.ai_feedback = ai_service.generate_feedback(entry.entry, mood.mood_scale)
+        except Exception as e:
+            print(f"Failed to update AI feedback: {type(e).__name__}: {str(e)}")
+            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, detail="AI service is currently unavailable. Please try again in a moment.")
+
     session.commit()
 
     return DailyCheckInList(
@@ -101,7 +116,8 @@ def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, ses
         mood_scale=mood.mood_scale,
         mood_id=mood.id,
         entry=entry.entry,
-        entry_id=entry.id)
+        entry_id=entry.id,
+        ai_feedback=entry.ai_feedback)
 
 @router.delete("/delete/{date}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_check_in_by_date(date: date, session=Depends(get_session), current_user=Depends(get_current_user)):
