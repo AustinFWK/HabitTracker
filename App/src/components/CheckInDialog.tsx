@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { useState, useEffect } from "react";
 import { getMoodLabel } from "../utils/moods";
 import {
   Dialog,
@@ -9,10 +10,18 @@ import {
   Box,
   CircularProgress,
   Typography,
+  IconButton,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
 import { checkInApi } from "../../../api/app/api/services/checkInService";
 import AIFeedbackDisplay from "./AIFeedbackDisplay";
+import CheckInFormFields from "./CheckInFormFields";
+
+interface CheckInFormData {
+  entry: string;
+  mood_scale: number;
+}
 
 interface CheckInDialogProps {
   isOpen: boolean;
