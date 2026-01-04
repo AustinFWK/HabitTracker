@@ -1,5 +1,5 @@
 import { Dayjs } from "dayjs";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getMoodLabel } from "../utils/moods";
 import {
   Dialog,
@@ -177,13 +177,20 @@ function CheckInDialog({
               form="edit-check-in-form"
               variant="contained"
               disabled={mutation.isPending}
+              startIcon={mutation.isPending && <CircularProgress size={16} />}
             >
               {mutation.isPending ? "Saving..." : "Save"}
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={() => setIsEditMode(true)} variant="contained">
+            <Button
+              onClick={(e) => {
+                e.currentTarget.blur();
+                setIsEditMode(true);
+              }}
+              variant="contained"
+            >
               Edit
             </Button>
             <Button onClick={onClose}>Close</Button>
