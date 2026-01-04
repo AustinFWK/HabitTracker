@@ -60,6 +60,15 @@ function CheckInDialog({
     retry: false,
   });
 
+  // Populate form when data is fetched
+  useEffect(() => {
+    if(isEditMode && checkInData) {
+      setValue("entry", checkInData.entry);
+      setValue("mood_scale", checkInData.mood_scale);
+    }
+  }, [isEditMode, checkInData, setValue]);
+  })
+
   return (
     <Dialog
       open={isOpen}
