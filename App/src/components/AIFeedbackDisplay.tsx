@@ -31,6 +31,7 @@ function AIFeedbackDisplay({ aiFeedback }: AIFeedbackDisplayProps) {
         💡 AI Insights
       </Typography>
       <Typography
+        component="div"
         variant="body1"
         sx={{
           whiteSpace: "pre-wrap",
