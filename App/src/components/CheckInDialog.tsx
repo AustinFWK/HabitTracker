@@ -76,6 +76,19 @@ function CheckInDialog({
     }
   }, [isOpen, reset]);
 
+  const mutation = useMutation({
+    mutationFn: (data: CheckInFormData) =>
+      checkInApi.update(formattedDate, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["checkIns"] });
+      queryClient.invalidateQueries({ queryKey: ["checkIn", formattedDate] });
+      setIsEditMode(false);
+    },
+    onError: (error) => {
+      console.error("Error updating check-in:", error);
+    },
+  });
+
   return (
     <Dialog
       open={isOpen}
