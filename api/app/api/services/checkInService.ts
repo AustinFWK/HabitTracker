@@ -42,4 +42,13 @@ export const checkInApi = {
     const response = await axiosInstance.post("/check_in/create", data);
     return response.data;
   },
+
+  //Function to update an existing check-in
+  update: async (date: string, data: CheckInFormData): Promise<CheckInData> => {
+    const response = await axiosInstance.put<CheckInData>(
+      `/check_in/${date}`,
+      data
+    );
+    return response.data;
+  },
 };
