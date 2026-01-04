@@ -36,6 +36,8 @@ function CheckInDialog({
   onExited,
   selectedDate,
 }: CheckInDialogProps) {
+  const [isEditMode, setIsEditMode] = useState(false);
+  const queryClient = useQueryClient();
   const formattedDate = selectedDate?.format("YYYY-MM-DD") || "";
 
   const {
