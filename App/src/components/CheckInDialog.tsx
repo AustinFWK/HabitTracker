@@ -89,6 +89,15 @@ function CheckInDialog({
     },
   });
 
+  const onSubmit = (data: CheckInFormData) => {
+    mutation.mutate(data);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditMode(false);
+    reset();
+  };
+
   return (
     <Dialog
       open={isOpen}
