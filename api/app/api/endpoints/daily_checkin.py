@@ -93,14 +93,14 @@ def update_check_in_by_date(date: date, check_in_update: DailyCheckInUpdate, ses
     # Track if we need to regenerate AI feedback
     needs_ai_update = False
 
-    if check_in_update.entry is not None:
+    if check_in_update.entry is not None and check_in_update.entry != entry.entry:
         entry.entry = check_in_update.entry
         needs_ai_update = True
-    if check_in_update.mood_scale is not None:
+    if check_in_update.mood_scale is not None and check_in_update.mood_scale != mood.mood_scale:
         mood.mood_scale = check_in_update.mood_scale
         needs_ai_update = True
 
-    # Regenerate AI feedback if entry or mood changed
+    # Regenerate AI feedback only if entry or mood actually changed
     if needs_ai_update:
         try:
             ai_service = AIService()
